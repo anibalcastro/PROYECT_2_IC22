@@ -15,7 +15,8 @@ class AdminController extends Controller
     public function index()
     {
         //
-        return view('admin.dashboard');
+        $datos['categories'] = Admin::paginate(20);
+        return view('admin.dashboard', $datos);
     }
 
     /**
@@ -37,7 +38,10 @@ class AdminController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        //Save category
+        $datosCategory = request()->except('_token','btnSave');
+        Admin::insert($datosCategory);
+        return response()->json($datosCategory);
     }
 
     /**
