@@ -16,6 +16,8 @@ class AdminController extends Controller
     {
         //
         $datos['categories'] = Admin::paginate(20);
+        $datos['pageTitle'] = "Dashboard - Category";
+        $datos['user'] = "Anibal Castro";
         return view('admin.dashboard', $datos);
     }
 
@@ -26,8 +28,10 @@ class AdminController extends Controller
      */
     public function create()
     {
+        $datos['pageTitle'] = "Create - Category";
+        $datos['user'] = "Anibal Castro";
         //return view
-        return view('admin.createCategory');
+        return view('admin.createCategory', $datos);
     }
 
     /**
