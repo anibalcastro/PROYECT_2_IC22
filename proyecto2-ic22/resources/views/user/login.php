@@ -32,6 +32,7 @@ if(Session::has('message')){?>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
     <link href="<?=asset('css/login.css')?>" rel="stylesheet" type="text/css" >
+    <script src="<?=asset('js/shared.js')?>"></script>
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <!------ Include the above in your HEAD tag ---------->
@@ -52,8 +53,8 @@ if(Session::has('message')){?>
 
     <?php
     if(Session::has('message')){?>
-    <div class="alert alert-success alert-dismissible" role="alert">
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
+    <div id="alerta" class="alert alert-success alert-dismissible" role="alert">
+        <button type="button" onclick="ocultarAlerta()" class="close" data-dismiss="alert" aria-label="Close"><span
                 aria-hidden="true">&times;</span></button>
         <?= Session::get('message');?>
     </div>

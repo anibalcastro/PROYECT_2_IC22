@@ -28,25 +28,28 @@ class UsuarioController extends Controller
         $datosLogin = request()->except('_token','btnSave');
         $email = $datosLogin['email'];
         $password = $datosLogin['password'];
+        $redirect = '';
 
         $result = Usuario::all();
+        
         foreach($result as $clients){
             if($clients['email'] == $email && $clients['password'] == $password){
                 $role = $clients['roleId'];
                 $mensaje = 'Encontro';
-
+                
                 Session::flash('message','Bienvenido');
-                return Redirect::to('/admin');
+                $redirect = Redirect::to('/admin');
                 break;
+                
             }
             else {
                 $mensaje = 'No encontro';
                 Session::flash('message','Error, no se encontraron datos');
-                return Redirect::to('/user');
+                $redirect = Redirect::to('/user');
             }
         }   
 
-       
+       return $redirect;
     }
 
     /**
