@@ -15,6 +15,14 @@ class UsuarioController extends Controller
     public function index()
     {
         //
+        return view('user/login');
+    }
+
+    /**
+     * Validate data login
+     */
+    public function validateLogin(){
+        //
     }
 
     /**
@@ -25,6 +33,7 @@ class UsuarioController extends Controller
     public function create()
     {
         //
+        return view('user/register');
     }
 
     /**
@@ -36,6 +45,9 @@ class UsuarioController extends Controller
     public function store(Request $request)
     {
         //
+        $datosUsuario = request()->except('_token','btnSave');
+        Usuario::insert($datosUsuario);
+        return response()->json($datosUsuario);
     }
 
     /**

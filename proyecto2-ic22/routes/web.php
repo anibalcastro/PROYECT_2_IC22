@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\UsuarioController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -18,11 +19,15 @@ Route::get('/', function () {
 });
 
 
+/*
 Route::get('/editCategory', function () {
     return view('admin.editCategory');
 });
 
 Route::get('admin/dashboard',[AdminController::class,'index']);
 Route::get('admin/createCategory',[AdminController::class,'create']);
+*/
+
+Route::resource('user', UsuarioController::class);
 Route::resource('admin', AdminController::class);
 
