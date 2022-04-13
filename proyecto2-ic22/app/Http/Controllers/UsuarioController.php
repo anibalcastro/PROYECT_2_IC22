@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Usuario;
 use Illuminate\Http\Request;
+Use Session;
+Use Redirect;
 
 class UsuarioController extends Controller
 {
@@ -21,8 +23,30 @@ class UsuarioController extends Controller
     /**
      * Validate data login
      */
-    public function validateLogin(){
+    public function validateLogin(Request $request){
         //
+        $datosLogin = request()->except('_token','btnSave');
+        $email = $datosLogin['email'];
+        $password = $datosLogin['password'];
+
+        $result = Usuario::all();
+        foreach($result as $clients){
+            if($clients['email'] == $email && $clients['password'] == $password){
+                $role = $clients['roleId'];
+                $mensaje = 'Encontro';
+
+                Session::flash('message','Bienvenido');
+                return Redirect::to('/admin');
+                break;
+            }
+            else {
+                $mensaje = 'No encontro';
+                Session::flash('message','Error, no se encontraron datos');
+                return Redirect::to('/user');
+            }
+        }   
+
+       
     }
 
     /**
@@ -33,7 +57,8 @@ class UsuarioController extends Controller
     public function create()
     {
         //
-        return view('user/register');
+        $data['pageTitle'] = "Registro - Usuario ";
+        return view('user/register',$data);
     }
 
     /**
@@ -47,7 +72,8 @@ class UsuarioController extends Controller
         //
         $datosUsuario = request()->except('_token','btnSave');
         Usuario::insert($datosUsuario);
-        return response()->json($datosUsuario);
+        
+        return redirect('user/');
     }
 
     /**

@@ -31,3 +31,5 @@ Route::get('admin/createCategory',[AdminController::class,'create']);
 Route::resource('user', UsuarioController::class);
 Route::resource('admin', AdminController::class);
 
+Route::post('user/validateData',[UsuarioController::class,'validateLogin']);
+

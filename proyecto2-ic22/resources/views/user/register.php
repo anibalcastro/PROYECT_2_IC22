@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title><?=$pageTitle?></title>
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
@@ -359,11 +359,11 @@
 <body>
     <header id="encabezado">
         <nav id="nav" class="navbar navbar-light bg-light">
-            <a class="navbar-brand" href="http://utnweb.com/web2/Proyecto_1_ISW613/index.php">
+            <a class="navbar-brand" href="http://127.0.0.1:8000/user">
                 <img src="https://upload.wikimedia.org/wikipedia/commons/c/c4/Telefe_Noticias_logo_2_%282018%29.png"
                     id="logo_empresa" alt="icon" srcset="logo icon">
             </a>
-            <a id="btn_login" href="http://utnweb.com/web2/Proyecto_1_ISW613/index.php"
+            <a id="btn_login" href="http://127.0.0.1:8000/user"
                 class="btn btn-success btn btn-dark my-2 my-sm-0">Log in</a>
 
             <!------ 
@@ -418,7 +418,7 @@
 
             <!-- Remind Passowrd -->
             <div id="formFooter">
-                <a class="underlineHover" href="http://utnweb.com/web2/Proyecto_1_ISW613/index.php">I have user</a>
+                <a class="underlineHover" href="http://127.0.0.1:8000/user">I have user</a>
             </div>
         </div>
 
@@ -451,9 +451,6 @@
         </section>
         </div>
     </footer>
-
-
-
 
 </body>
 
