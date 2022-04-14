@@ -127,6 +127,15 @@
         </nav>
     </header>
 
+    <?php
+    if(Session::has('message')){?>
+    <div id="alerta" class="alert alert-success alert-dismissible" role="alert">
+        <button type="button" onclick="ocultarAlerta()" class="close" data-dismiss="alert" aria-label="Close"><span
+                aria-hidden="true">&times;</span></button>
+        <?= Session::get('message');?>
+    </div>
+    <?php }?>
+
     <!-- Titulo -->
     <div class="jumbotron">
         <h1 class="display-4">Edit categories</h1>
@@ -135,43 +144,14 @@
 
     <!-- Cuerpo -->
     <div>
-        <form action="{{url('/admin')}}" method="post" enctype="multipart/form-data">
+        <form action="<?=url('/admin/'.$category->id)?>" method="post" enctype="multipart/form-data">
             @csrf
-            <input type="text" class="form-control" name="name" id="nameCategory" aria-describedby="helpId"
-                placeholder="Name Category">
-            <div class="linea_100"></div>
-            <input name="btnSave" id="btnSave" class="btn btn-primary" type="submit" value="Save">
+            <?= method_field('PATCH')?>
+            @include('admin.form')
         </form>
     </div>
 
-    <!-- Footer -->
-    <footer class="text-center text-white" style="background-color: #0a4275;">
-        <!-- Grid container -->
-        <div class="container p-4 pb-0">
-            <!-- Section: CTA -->
-            <section class="submenu">
-                <nav class="nav">
-                    <a class="nav-link active" href="#">My Cover</a>
-                    <a class="nav-link disabled" href="#">|</a>
-                    <a class="nav-link" href="#">About</a>
-                    <a class="nav-link disabled" href="#">|</a>
-                    <a class="nav-link" href="#">Help</a>
-                </nav>
-            </section>
-            <!-- Section: CTA -->
-        </div>
-        <!-- Grid container -->
-
-        <!-- Copyright -->
-        <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
-            ©
-            <a class="text-white" href="https://mdbootstrap.com/">N Noticias</a>
-        </div>
-        <!-- Copyright -->
-        <!-- Footer -->
-        </section>
-        </div>
-    </footer>
+    @include('shared/footer')
 </body>
 
 </html>

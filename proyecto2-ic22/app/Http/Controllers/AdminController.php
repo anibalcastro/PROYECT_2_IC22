@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Admin;
 use Illuminate\Http\Request;
+Use Session;
+Use Redirect;
 
 class AdminController extends Controller
 {
@@ -44,8 +46,31 @@ class AdminController extends Controller
     {
         //Save category
         $datosCategory = request()->except('_token','btnSave');
+        $resultDB = Admin::all();
+        $mensaje = "";
+        $redirect= "";
+        /*
+        foreach($resultDB as $categoria){
+            if ($resultDB['nameCategory'] == $datosCategory['nameCategory']){
+                Session::flash('message','Error categoria ya existe');
+                $redirect = Redirect::to('/admin/create');
+                break;
+            }
+            else{
+                Admin::insert($datosCategory);
+                Session::flash('message','Agregado con exito');
+                $redirect = Redirect::to('/admin');
+            }
+        }
+        */
+
         Admin::insert($datosCategory);
-        return response()->json($datosCategory);
+        Session::flash('message','Agregado con exito');
+        $redirect = Redirect::to('/admin');
+
+
+
+        return $redirect;
     }
 
     /**
@@ -65,9 +90,13 @@ class AdminController extends Controller
      * @param  \App\Models\Admin  $admin
      * @return \Illuminate\Http\Response
      */
-    public function edit(Admin $admin)
+    public function edit($id)
     {
         //
+        $category = Admin::findOrFail($id);
+        $data['pageTitle'] = 'Edit Category / N-Noticias';
+        $data['user'] = 'Anibal Castro';
+        return view('admin.editCategory',$data ,compact('category'));
     }
 
     /**
@@ -77,9 +106,13 @@ class AdminController extends Controller
      * @param  \App\Models\Admin  $admin
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Admin $admin)
+    public function update(Request $request, $id)
     {
         //
+        $datosCategory = request()->except('_token','btnSave','_method');
+        Admin::where('id','=',$id)->update($datosCategory);
+        Session::flash('message','Edit are sucesfull');
+        $redirect = Redirect::to('/admin');
     }
 
     /**
