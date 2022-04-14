@@ -88,8 +88,10 @@ class AdminController extends Controller
      * @param  \App\Models\Admin  $admin
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Admin $admin)
+    public function destroy($id)
     {
         //
+        Admin::destroy($id);
+        return \redirect('admin');
     }
 }

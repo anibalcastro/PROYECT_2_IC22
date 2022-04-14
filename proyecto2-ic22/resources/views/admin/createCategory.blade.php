@@ -137,7 +137,7 @@
     <div>
         <form action="{{url('/admin')}}" method="post" enctype="multipart/form-data">
             @csrf
-            <input type="text" class="form-control" name="name" id="nameCategory" aria-describedby="helpId"
+            <input type="text" class="form-control" name="nameCategory" id="nameCategory" aria-describedby="helpId"
                 placeholder="Name Category">
             <div class="linea_100"></div>
             <input name="btnSave" id="btnSave" class="btn btn-primary" type="submit" value="Save">

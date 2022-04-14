@@ -7,6 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Admin extends Model
 {
-    protected $table ="categories";
     use HasFactory;
+
+    protected $table = 'categories';
+    protected $primaryKey = 'id';
+    protected $fillable = ['nameCategory'];
 }

@@ -143,7 +143,15 @@
             <tr>
                 <td scope="row">{{ $category->id }}</td>
                 <td>{{ $category->name }}</td>
-                <td>Edit / Delete</td>
+                <td>Edit
+
+                    <form action="{{url('/admin/'.$category->id)}}" method="post">
+                        <input type="hidden" name="_token" value="<?=csrf_token()?>" />
+                        {{ method_field('DELETE') }}
+                        <input type="submit" onclick="return confirm('Quieres eliminar la categoria?')"
+                            value="Eliminar">
+                    </form>
+                </td>
             </tr>
             @endforeach
 
@@ -151,8 +159,7 @@
     </table>
 
     <div class="btnAdd">
-        <a type="button" href="http://127.0.0.1:8000/admin/create"
-            class="btn btn-dark">Add New</a>
+        <a type="button" href="http://127.0.0.1:8000/admin/create" class="btn btn-dark">Add New</a>
     </div>
 
     <!-- Footer -->
