@@ -41,8 +41,10 @@ class UserController extends Controller
                 ];
                 
                 //Creamos session y almacena session
-                session_start();
-                $_SESSION['user'] = $user;
+                session($usuario = ['email'=> $email,
+                "firstName" => $user['firstName'],
+                "roleId"=> $user['roleId']]);
+
 
                 //Almacena mensaje
                 Session::flash('message',"Bienvenido ".$user['firstName'] );
@@ -52,19 +54,15 @@ class UserController extends Controller
                     $redirect = Redirect::to('/admin');
                 }
                 else {
-                    //Redirecciona al dashboard
+                    //Redirecciona al dashboard - noticias
                 }
-
-                //Guarda la redireccion
-                $redirect = Redirect::to('/admin');
 
                 //Rompe el ciclo
                 break;
                 
             }
             else {
-                $mensaje = 'No encontro';
-                Session::flash('message','Error, no se encontraron datos');
+                Session::flash('message','Error, datos son incorrectos');
                 $redirect = Redirect::to('/login');
             }
         }   

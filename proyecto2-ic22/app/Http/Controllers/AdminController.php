@@ -17,10 +17,34 @@ class AdminController extends Controller
     public function index()
     {
         //
+        AdminController::validateSession();
+
         $datos['categories'] = Admin::paginate(20);
         $datos['pageTitle'] = "Dashboard - Category";
         $datos['user'] = "Anibal Castro";
         return view('admin.dashboard', $datos);
+    }
+
+    /**
+     * Validate session
+     */
+    public function validateSession(){
+        //
+        if(session()->has('email')){
+            $roleId = Session::get('roleId');
+            if ($roleId!=1){
+                return $redirect = Redirect::to('/');
+            }
+        }
+        else{
+            return $redirect = Redirect::to('/');
+        }
+    }
+
+    public function logout(){
+        //
+        session()->forget(['email', 'firstName', 'roleId']);
+
     }
 
     /**
@@ -30,6 +54,7 @@ class AdminController extends Controller
      */
     public function create()
     {
+        AdminController::validateSession();
         $datos['pageTitle'] = "Create - Category";
         $datos['user'] = "Anibal Castro";
         //return view
@@ -93,6 +118,8 @@ class AdminController extends Controller
     public function edit($id)
     {
         //
+        AdminController::validateSession();
+
         $category = Admin::findOrFail($id);
         $data['pageTitle'] = 'Edit Category / N-Noticias';
         $data['user'] = 'Anibal Castro';

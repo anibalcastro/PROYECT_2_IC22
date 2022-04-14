@@ -25,12 +25,14 @@
             </a>
             <div class="btn-group" role="group" aria-label="Basic example">
                 <button type="button" class="btn btn-dark" disabled="disabled"><?=$user?></button>
-                <a type="button" href="http://utnweb.com/web2/Proyecto_1_ISW613/Administrador/ceCategoria.php"
+                <a type="button" href="http://127.0.0.1:8000/admin/create"
                     class="btn btn-dark">Categories</a>
-                <form action="logout.php" method="post">
+                <a type="button" class="btn btn-dark" href="http://127.0.0.1:8000/admin/logout"> Log out</a>
+               <!--
+                <form action="http://127.0.0.1:8000/admin/logout" method="post">
                     <button type="submit" class="btn btn-dark">Log out</button>
                 </form>
-
+                -->
             </div>
             </div>
 
@@ -64,15 +66,14 @@
             <tr>
                 <td scope="row">{{ $category->id }}</td>
                 <td>{{ $category->nameCategory }}</td>
-                <td>
+                <td class = "actions">
 
-                    <a href="<?=url('/admin/'.$category->id.'/edit')?>">Edit</a> |
+                    <a id="edit" type="button" class="btn btn-success" href="<?=url('/admin/'.$category->id.'/edit')?>">Edit</a>
                     
-                    
-                    <form action="{{url('/admin/'.$category->id)}}" method="post">
+                    <form class="btnDelete" action="{{url('/admin/'.$category->id)}}" method="post">
                         <input type="hidden" name="_token" value="<?=csrf_token()?>" />
                         {{ method_field('DELETE') }}
-                        <input type="submit" onclick="return confirm('Quieres eliminar la categoria?')" value="Delete">
+                        <input type="submit" class="btn btn-danger" onclick="return confirm('Quieres eliminar la categoria?')" value="Delete">
                     </form>
                 </td>
             </tr>

@@ -86,3 +86,13 @@ footer {
 a {
     color: white;
 }
+
+.actions{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btnDelete{
+    margin-left:5px;
+}

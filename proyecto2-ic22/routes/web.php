@@ -14,9 +14,6 @@ use App\Http\Controllers\UserController;
 |
 */
 
-Route::get('/', function () {
-    return view('home');
-});
 
 
 /*
@@ -29,10 +26,22 @@ Route::get('admin/createCategory',[AdminController::class,'create']);
 */
 
 //Route::resource('user', UserController::class);
+//Route::resource('admin', AdminController::class);
+
+//Admin
+
+//Route::get('admin', AdminController::class, 'index')-> name('Dashboard-Admin / N-Noticias');
+//Route::get('admin/create', AdminController::class,'create')-> name('Create - Category / N-Noticias');
+//Route::get('admin/logout', [AdminController::class, 'logout']);
 Route::resource('admin', AdminController::class);
 
+
+
+//User
 Route::get('register', [UserController::class, 'register'])-> name('Registro / N-Noticias');
 Route::get('login', [UserController::class, 'index'])-> name('Login / N-Noticias');
+Route::get('/', [UserController::class, 'index'])-> name('Login / N-Noticias');
+
 Route::post('login',[UserController::class, 'validateLogin']);
 Route::post('register', [UserController::class, 'registerAction']);
 

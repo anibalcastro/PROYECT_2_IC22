@@ -1,3 +1,7 @@
+<?php
+    $category = null;
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
