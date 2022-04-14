@@ -31,14 +31,29 @@ class UsuarioController extends Controller
         $redirect = '';
 
         $result = Usuario::all();
-        
-        foreach($result as $clients){
-            if($clients['email'] == $email && $clients['password'] == $password){
+
+        foreach($result as $client){
+            if($client['email'] == $email && $client['password'] == $password){
                 $role = $clients['roleId'];
                 $mensaje = 'Encontro';
+
+                $user =
+                [
+                    "id" => $client['id'],
+                    "firstName" => $client['firstName'],
+                    "lastName" => $client['lastName'],
+                    "email" => $client['lastName'],
+                    "roleId" => $client['roleId'],
+
+                ];
                 
+                //Almacena mensaje
                 Session::flash('message','Bienvenido');
+
+                //Guarda la redireccion
                 $redirect = Redirect::to('/admin');
+
+                //Rompe el ciclo
                 break;
                 
             }

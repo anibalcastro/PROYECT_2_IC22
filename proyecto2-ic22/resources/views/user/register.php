@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?=$pageTitle?></title>
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="<?=asset('js/shared.js')?>"></script>
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <!------ Include the above in your HEAD tag ---------->
@@ -370,6 +371,15 @@
       <a id="btn_login" class="btn btn-dark my-2 my-sm-0" type="submit">Log in</a>---------->
         </nav>
     </header>
+
+    <?php
+    if(Session::has('message')){?>
+    <div id="alerta" class="alert alert-success alert-dismissible" role="alert">
+        <button type="button" onclick="ocultarAlerta()" class="close" data-dismiss="alert" aria-label="Close"><span
+                aria-hidden="true">&times;</span></button>
+        <?= Session::get('message');?>
+    </div>
+    <?php }?>
 
     <div class="wrapper fadeInDown">
         <div id="formContent">
