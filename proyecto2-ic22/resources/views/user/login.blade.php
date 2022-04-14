@@ -36,7 +36,7 @@ if(Session::has('message')){?>
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <!------ Include the above in your HEAD tag ---------->
-    <title>Document</title>
+    <title><?=$pageTitle?></title>
 </head>
 
 <!------ menu ---------->
@@ -72,7 +72,7 @@ if(Session::has('message')){?>
             </div>
 
             <!-- Login Form -->
-            <form action="http://127.0.0.1:8000/user/validateData" method="post" enctype="multipart/form-data">
+            <form action="http://127.0.0.1:8000/login" method="post" enctype="multipart/form-data">
 
                 <input type="hidden" name="_token" value="<?=csrf_token()?>" />
                 <input type="text" id="email" class="fadeIn second" name="email" placeholder="Email" required="true">

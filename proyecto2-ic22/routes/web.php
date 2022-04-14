@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
-use App\Http\Controllers\UsuarioController;
+use App\Http\Controllers\UserController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -15,7 +15,7 @@ use App\Http\Controllers\UsuarioController;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('home');
 });
 
 
@@ -28,8 +28,12 @@ Route::get('admin/dashboard',[AdminController::class,'index']);
 Route::get('admin/createCategory',[AdminController::class,'create']);
 */
 
-Route::resource('user', UsuarioController::class);
+//Route::resource('user', UserController::class);
 Route::resource('admin', AdminController::class);
 
-Route::post('user/validateData',[UsuarioController::class,'validateLogin']);
+Route::get('register', [UserController::class, 'register'])-> name('Registro / N-Noticias');
+Route::get('login', [UserController::class, 'index'])-> name('Login / N-Noticias');
+Route::post('login',[UserController::class, 'validateLogin']);
+Route::post('register', [UserController::class, 'registerAction']);
+
 
