@@ -13,6 +13,7 @@ class UserController extends Controller
     public function index(){
         //
         $data['pageTitle'] = "Login / N-Noticias ";
+        $data['head'] = view('sharedUser.head',$data);
         return view('user/login',$data);
     }
 
@@ -74,14 +75,20 @@ class UserController extends Controller
     public function register(){
          //
          $data['pageTitle'] = "Registro / N-Noticias ";
+         $data['head'] = view('sharedUser.head',$data);
          return view('user/register',$data);
     }
 
     public function registerAction(){
-        $datosUsuario = request()->except('_token','btnSave');
-        User::insert($datosUsuario);
-        
-        return redirect('user/');
+        try {
+            $datosUsuario = request()->except('_token','btnSave');
+            User::insert($datosUsuario);
+            
+            return redirect('/');
+        } catch (\Throwable $th) {
+            Session::flash('message',"Error, usuario ya exitente" );
+            return redirect('/register');
+        }
     }
 
 }
