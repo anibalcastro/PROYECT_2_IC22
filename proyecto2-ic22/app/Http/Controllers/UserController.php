@@ -36,14 +36,15 @@ class UserController extends Controller
                     "firstName" => $client['firstName'],
                     "lastName" => $client['lastName'],
                     "email" => $client['lastName'],
-                    "roleId" => $client['roleId'],
+                    "roleId" => $client['roleId']
 
                 ];
                 
                 //Creamos session y almacena session
-                session($usuario = ['email'=> $email,
-                "firstName" => $user['firstName'],
-                "roleId"=> $user['roleId']]);
+                session($usuario = ['email'=> $client,
+                "firstName" => $client['firstName'],
+                "roleId"=> $client['roleId'],
+                "session_start" => true]);
 
 
                 //Almacena mensaje

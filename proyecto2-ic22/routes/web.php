@@ -29,11 +29,33 @@ Route::get('admin/createCategory',[AdminController::class,'create']);
 //Route::resource('admin', AdminController::class);
 
 //Admin
+//Dashboard
+Route::get('admin', [AdminController::class, 'index'])-> name('Dashboard-Admin / N-Noticias');
+//Create category
+Route::get('admin/create', [AdminController::class,'create'])-> name('Create - Category / N-Noticias');
+//Logout
+Route::get('exit', [AdminController::class, 'exit']);
+/*
+Route::get('admin/exit', function () {
+    session()->forget(['email', 'firstName', 'roleId']);
+    $data['pageTitle'] = 'Login / N-Noticias';
+    return view('user.login', $data);
+});
+*/
+//Edit
+Route::get('admin/{admin}/edit', [AdminController::class, 'edit'])->name('Edit Categorie / N-Noticias');
+//Save category
+Route::post('admin', [AdminController::class, 'store']);
+//Update 
+Route::patch('admin/{admin}', [AdminController::class, 'update']);
+//Delete
+Route::delete('admin/{admin}', [AdminController::class, 'destroy']);
 
-//Route::get('admin', AdminController::class, 'index')-> name('Dashboard-Admin / N-Noticias');
-//Route::get('admin/create', AdminController::class,'create')-> name('Create - Category / N-Noticias');
-//Route::get('admin/logout', [AdminController::class, 'logout']);
-Route::resource('admin', AdminController::class);
+//POST admin
+//GET admin/{admin}/edit
+//PATCH admin/{admin}
+//DELETE admin/{admin}
+//Route::resource('admin', AdminController::class);
 
 
 

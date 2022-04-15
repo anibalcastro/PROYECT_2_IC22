@@ -27,7 +27,7 @@
                 <button type="button" class="btn btn-dark" disabled="disabled"><?=$user?></button>
                 <a type="button" href="http://127.0.0.1:8000/admin/create"
                     class="btn btn-dark">Categories</a>
-                <a type="button" class="btn btn-dark" href="http://127.0.0.1:8000/admin/logout"> Log out</a>
+                <a type="button" class="btn btn-dark" href="http://127.0.0.1:8000/exit"> Log out</a>
                <!--
                 <form action="http://127.0.0.1:8000/admin/logout" method="post">
                     <button type="submit" class="btn btn-dark">Log out</button>
