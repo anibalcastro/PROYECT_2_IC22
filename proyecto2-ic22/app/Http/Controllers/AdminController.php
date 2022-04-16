@@ -21,9 +21,19 @@ class AdminController extends Controller
         //     
         try {
             if(AdminController::validateSession()){
+
+                $datosHead['pageTitle'] = "Dashboard - Category";
+                $datosMenu =[
+                    "nameUser"=> Session::get('firstName'). " - Admin",
+                    "link"=>'http://127.0.0.1:8000/admin/create',
+                    "action"=>'Categories'
+                ];
+              
+
                 $datos['categories'] = Admin::all();
-                $datos['pageTitle'] = "Dashboard - Category";
-                $datos['user'] = Session::get('firstName');
+                $datos['head'] = view('sharedAdmin/head', $datosHead);
+                $datos['menu'] = view('shared/menu', $datosMenu);
+
                 return view('admin.dashboard', $datos);
             }
             else{
@@ -42,7 +52,7 @@ class AdminController extends Controller
     public function validateSession(){
         //       
         if(Session::get('session_start')){
-            Debugbar::addMessage('Entra', 'validateSession');
+            
             $roleId = Session::get('roleId');
             
             if ($roleId!=1){
@@ -74,8 +84,16 @@ class AdminController extends Controller
     public function create()
     {
         if(AdminController::validateSession()){
-            $datos['pageTitle'] = "Create - Category";
-            $datos['user'] = "Anibal Castro";
+            $datosHead['pageTitle'] = "Dashboard - Category";
+            $datosMenu =[
+                "nameUser"=> Session::get('firstName'). " - Admin",
+                "link"=>'http://127.0.0.1:8000/admin',
+                "action"=>'Categories'
+            ];
+          
+
+            $datos['head'] = view('sharedAdmin/head', $datosHead);
+            $datos['menu'] = view('shared/menu', $datosMenu);
             //return view
             return view('admin.createCategory', $datos);
         }
@@ -136,9 +154,18 @@ class AdminController extends Controller
         //
         if (AdminController::validateSession()){
             $category = Admin::findOrFail($id);
-            $data['pageTitle'] = 'Edit Category / N-Noticias';
-            $data['user'] = 'Anibal Castro';
-            return view('admin.editCategory',$data ,compact('category'));
+            
+            $datosHead['pageTitle'] = "Dashboard - Category";
+            $datosMenu =[
+                "nameUser"=> Session::get('firstName'). " - Admin",
+                "link"=>'http://127.0.0.1:8000/admin',
+                "action"=>'Categories'
+            ];
+          
+
+            $datos['head'] = view('sharedAdmin/head', $datosHead);
+            $datos['menu'] = view('shared/menu', $datosMenu);
+            return view('admin.editCategory',$datos ,compact('category'));
         }
         else{
             $redirect = Redirect::to('/');
