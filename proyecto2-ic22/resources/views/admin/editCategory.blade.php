@@ -2,7 +2,7 @@
 
 <body>
 
-<?$menu?>
+<?=$menu?>
 
     <?php
     if(Session::has('message')){?>

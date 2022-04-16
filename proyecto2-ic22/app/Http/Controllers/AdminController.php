@@ -198,6 +198,7 @@ class AdminController extends Controller
     {
         //
         Admin::destroy($id);
+        Session::flash('message','Delete are sucesfull');
         return \redirect('admin');
     }
 }
