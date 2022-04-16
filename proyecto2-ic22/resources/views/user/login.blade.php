@@ -31,7 +31,7 @@
             <form action="http://127.0.0.1:8000/login" method="post" enctype="multipart/form-data">
 
                 <input type="hidden" name="_token" value="<?=csrf_token()?>" />
-                <input type="text" id="email" class="fadeIn second" name="email" placeholder="Email" required="true">
+                <input type="text" onKeyUp="minusculas(this);" id="email" class="fadeIn second" name="email" placeholder="Email" required="true">
                 <input type="password" id="password" class="fadeIn third" name="password" placeholder="Password"
                     required="true">
                 <input type="submit" class="fadeIn fourth" name="btnSave" value="Log In">

@@ -33,7 +33,7 @@
                         required="true">
                     <input type="text" id="lastUser" class="fadeIn first" name="lastName" placeholder="LastName"
                         required="true">
-                    <input type="text" id="emailUser" class="fadeIn third" name="email" placeholder="Email"
+                    <input type="text" id="emailUser" onKeyUp="minusculas(this);" class="fadeIn third" name="email" placeholder="Email"
                         required="true">
                     <input type="password" id="passwordUser" class="fadeIn fourth" name="password"
                         placeholder="Password" required="true">
