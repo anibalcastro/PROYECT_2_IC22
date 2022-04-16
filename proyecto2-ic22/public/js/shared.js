@@ -5,6 +5,7 @@ function ocultarAlerta(){
     x.style.display = "none";
 }
 
+//Todo lo que se ingrese sean minusculas
 function minusculas(e){
     e.value = e.value.toLowerCase();
 }
