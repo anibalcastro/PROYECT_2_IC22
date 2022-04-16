@@ -25,12 +25,11 @@ Route::get('admin/dashboard',[AdminController::class,'index']);
 Route::get('admin/createCategory',[AdminController::class,'create']);
 */
 
+//Resource
 //Route::resource('user', UserController::class);
 //Route::resource('admin', AdminController::class);
 
 //Admin \ Dashboard \ Create category \ Logout \ Edit \ Save category \ Update \ Delete
-
-
 Route::get('admin', [AdminController::class, 'index'])-> name('Dashboard-Admin / N-Noticias');
 Route::get('admin/create', [AdminController::class,'create'])-> name('Create - Category / N-Noticias');
 Route::get('exit', [AdminController::class, 'exit']);
