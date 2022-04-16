@@ -4,6 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use App\Mail\RegistroMailable;
+use Illuminate\Support\Facades\Mail;
+use Barryvdh\Debugbar\Facade as Debugbar;
+
 Use Session;
 Use Redirect;
 
@@ -82,11 +86,18 @@ class UserController extends Controller
     public function registerAction(){
         try {
             $datosUsuario = request()->except('_token','btnSave');
-            User::insert($datosUsuario);
+            $resultDb = User::insert($datosUsuario);
+            
+            if ($resultDb){
+                $mail = new RegistroMailable();
+                Mail::to($datosUsuario['email'])->send($mail);
+                Session::flash('message',"Usuario creado con exito, se envió una confirmacion al correo!" );  
+            }
             
             return redirect('/');
+
         } catch (\Throwable $th) {
-            Session::flash('message',"Error, usuario ya exitente" );
+            Session::flash('message',"Error, no se logró registrar al usuario" );
             return redirect('/register');
         }
     }
