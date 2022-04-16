@@ -17,6 +17,8 @@
     </div>
 
     <!--Menu de todas las categorias->
+
+    <!-Menu de todas las etiquetas-->
     
 
     @include('share/footer');
