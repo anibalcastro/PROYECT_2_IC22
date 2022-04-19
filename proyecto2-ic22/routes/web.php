@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\SourceController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -37,6 +38,16 @@ Route::get('admin/{admin}/edit', [AdminController::class, 'edit'])->name('Edit C
 Route::post('admin', [AdminController::class, 'store']);
 Route::patch('admin/{admin}', [AdminController::class, 'update']);
 Route::delete('admin/{admin}', [AdminController::class, 'destroy']);
+
+//Source
+Route::get('source', [SourceController::class,'index'])-> name('Dashboard - Source / N-Noticias');
+Route::get('source/create', [SourceController::class, 'create'])-> name('Create new source / N-Noticias');
+Route::get('source/{source}/edit', [SourceController::class,'edit'])-> name('Edit source / N-Noticias');
+Route::post('source', [SourceController::class,'store']);
+Route::patch('source/{source}', [SourceController::class, 'update']);
+Route::delete('source/{source}', [SourceController::class, 'destroy']);
+
+
 
 //User \ Register \ login \ validateLogin \ registerAction
 Route::get('register', [UserController::class, 'register'])-> name('Registro / N-Noticias');
