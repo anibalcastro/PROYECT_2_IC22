@@ -6,9 +6,11 @@
     <!--Contenido del encabezado-->
 
     <!--Contenido del formulario-->
-    <form action="" method="post">
-        
-
+    <form action="{{url('/admin')}}" method="post" enctype="multipart/form-data">
+        @csrf
+        @include('source.formSource');
     </form>
+    
+    <!--Footer-->
     @include('share/footer');
 </body>
