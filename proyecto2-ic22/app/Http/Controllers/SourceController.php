@@ -6,6 +6,8 @@ use Models\Source;
 use App;
 use Illuminate\Http\Request;
 use Barryvdh\Debugbar\Facade as Debugbar;
+Use Session;
+Use Redirect;
 
 class SourceController extends Controller
 {
@@ -17,9 +19,21 @@ class SourceController extends Controller
      */
     public function index()
     {
+       $datosHead['pageTitle'] = "Dashboard - Category";
+       $datosHead['css'] = asset('css/source.css');
+
+       $datosMenu =[
+        "nameUser"=> Session::get('firstName'),
+        "link"=>'http://127.0.0.1:8000/source/create',
+        "action"=>'New Source'
+       ];
+       $datos['user'] = Session::get('firstName');
+       
        $category = new \App\Models\Admin();
-       $categories = $category::all();
-       $datos['categories'] = $categories;
+
+       $datos['head'] = view('shared/head', $datosHead);
+       $datos['menu'] = view('shared/menu', $datosMenu);
+       $datos['categories'] = $category::all();
        return view('source.dashboard',$datos);
     }
 
