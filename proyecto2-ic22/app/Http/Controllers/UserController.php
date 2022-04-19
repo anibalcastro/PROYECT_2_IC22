@@ -26,7 +26,6 @@ class UserController extends Controller
         $datosLogin = request()->except('_token','btnSave');
         $email = $datosLogin['email'];
         $password = $datosLogin['password'];
-        $redirect = '';
 
         $result = User::all();
 
@@ -46,7 +45,7 @@ class UserController extends Controller
                 ];
                 
                 //Creamos session y almacena session
-                session($usuario = ['email'=> $client,
+                session($usuario = ['email'=> $client['email'],
                 "firstName" => $client['firstName'],
                 "roleId"=> $client['roleId'],
                 "session_start" => true]);
@@ -61,6 +60,7 @@ class UserController extends Controller
                 }
                 else {
                     //Redirecciona al dashboard - noticias
+                    $redirect = Redirect::to('/source');
                 }
 
                 //Rompe el ciclo

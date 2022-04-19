@@ -2,26 +2,25 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Source;
+use Models\Source;
+use App;
 use Illuminate\Http\Request;
-use App\Models\Admin;
+use Barryvdh\Debugbar\Facade as Debugbar;
 
 class SourceController extends Controller
 {
-    /**
+    //
+        /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        //
-        $datos['pageTitle'] = "Dashboard News / N-Noticias";
-        $datos['nameUser'] = 'Anibal';
-        $datos['link'] = 'http://127.0.0.1:8000/source/create';
-        $datos['action'] = 'New Source';
-
-        return view('source/dashboard', $datos);
+       $category = new \App\Models\Admin();
+       $categories = $category::all();
+       $datos['categories'] = $categories;
+       return view('source.dashboard',$datos);
     }
 
     /**
@@ -32,18 +31,7 @@ class SourceController extends Controller
     public function create()
     {
         //
-        $datosHead['pageTitle'] = "Create source / N-Noticias";
-        $datosMenu =[
-            "nameUser"=>"Anibal",
-            "link"=>'http://127.0.0.1:8000/source',
-            "action"=>'Source'
-        ];
-
-        $datos['categories'] = Admin::all();
-        $datos['head'] = view('sharedAdmin/head', $datosHead);
-        $datos['menu'] = view('shared/menu', $datosMenu);
-
-        return view('source/createSource', $datos);
+        return view('source.createSource');
 
     }
 
@@ -78,6 +66,7 @@ class SourceController extends Controller
     public function edit(Source $source)
     {
         //
+        return view('source.editSource');
     }
 
     /**
