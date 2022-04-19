@@ -20,6 +20,8 @@
                         }?>
                 </select>
 
+                <input type="hidden" name="idUser" value="<?=$idUser?>">
+
                 <div class="linea_100"></div>
 
                 <input name="btnSave" id="btnSave" class="btn btn-primary" type="submit" value="Save"> 

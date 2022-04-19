@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use Models\Source;
-use App;
 use Illuminate\Http\Request;
 use Barryvdh\Debugbar\Facade as Debugbar;
 Use Session;
@@ -65,14 +64,15 @@ class SourceController extends Controller
             "url"=> "",
             "nameSource"=>"",
             "idCategory"=>null,
-            "categories" => $category::all()
+            "categories" => $category::all(),
+            "idUser" => Session::get('idUser'),
         ];
 
         //Data view
         $datos['head'] = view('shared/head', $datosHead);
         $datos['menu'] = view('shared/menu', $datosMenu);
         $datos['formSource'] = view('source.formSource', $datosFormulario);
-        
+
         return view('source.createSource', $datos);
 
     }
@@ -86,6 +86,36 @@ class SourceController extends Controller
     public function store(Request $request)
     {
         //
+        //Obtenemos lo que viene por request
+        $datosSource = request()->except('_token','btnSave');
+
+        //Instanciamos
+        $sourceModel = new \App\Models\Source();
+        
+        //Obtenemos resultados
+        $resultDB = $sourceModel::all();
+        
+        //
+        foreach($resultDB as $resultSource){
+            if ($resultSource['url'] == $datosSource['url'] 
+                && $resultSource['nameSource'] == $datosSource['nameSource'] 
+                && $resultSource['idCategory'] == $datosSource['idCategory']
+                && $resultSource['idUser'] == $datosSource['idUser'] ){
+
+                Session::flash('message','Error la fuente ya existe');
+                Debugbar::addMessage('Error categoria ya existe', 'Error');
+                $redirect = Redirect::to('/source/create');
+            }
+            else{
+                $sourceModel::insert($datosSource);
+                Session::flash('message','Fuente agregada con exito');
+                Debugbar::addMessage('Agregado', 'aceptado');
+                $redirect = Redirect::to('/source/show');
+                break;
+            }
+        }
+        
+        return $redirect;
     }
 
     /**

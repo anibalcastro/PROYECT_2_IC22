@@ -37,28 +37,19 @@ class UserController extends Controller
             if($client['email'] == $email && $client['password'] == $password){
                 $role = $client['roleId'];
                 $mensaje = 'Encontro';
-
-                $user =
-                [
-                    "id" => $client['id'],
-                    "firstName" => $client['firstName'],
-                    "lastName" => $client['lastName'],
-                    "email" => $client['lastName'],
-                    "roleId" => $client['roleId']
-
-                ];
                 
                 //Creamos session y almacena session
                 session($usuario = ['email'=> $client['email'],
                 "firstName" => $client['firstName'],
                 "roleId"=> $client['roleId'],
+                "idUser" => $client['id'],
                 "session_start" => true]);
 
 
                 //Almacena mensaje
-                Session::flash('message',"Bienvenido ".$user['firstName'] );
+                Session::flash('message',"Bienvenido ".$client['firstName'] );
 
-                if ($user['roleId'] == 1){
+                if ($client['roleId'] == 1){
                     //Guarda la redireccion administrador
                     $redirect = Redirect::to('/admin');
                 }
