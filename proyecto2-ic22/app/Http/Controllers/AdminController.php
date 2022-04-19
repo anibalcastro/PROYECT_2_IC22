@@ -23,6 +23,8 @@ class AdminController extends Controller
             if(AdminController::validateSession()){
 
                 $datosHead['pageTitle'] = "Dashboard - Category";
+                $datosHead['css'] = asset('css/admin.css');
+
                 $datosMenu =[
                     "nameUser"=> Session::get('firstName'). " - Admin",
                     "link"=>'http://127.0.0.1:8000/admin/create',
@@ -31,7 +33,7 @@ class AdminController extends Controller
               
 
                 $datos['categories'] = Admin::all();
-                $datos['head'] = view('sharedAdmin/head', $datosHead);
+                $datos['head'] = view('shared/head', $datosHead);
                 $datos['menu'] = view('shared/menu', $datosMenu);
 
                 return view('admin.dashboard', $datos);
@@ -85,6 +87,8 @@ class AdminController extends Controller
     {
         if(AdminController::validateSession()){
             $datosHead['pageTitle'] = "Dashboard - Category";
+            $datosHead['css'] = asset('css/admin.css');
+
             $datosMenu =[
                 "nameUser"=> Session::get('firstName'). " - Admin",
                 "link"=>'http://127.0.0.1:8000/admin',
@@ -92,7 +96,7 @@ class AdminController extends Controller
             ];
           
 
-            $datos['head'] = view('sharedAdmin/head', $datosHead);
+            $datos['head'] = view('shared/head', $datosHead);
             $datos['menu'] = view('shared/menu', $datosMenu);
             //return view
             return view('admin.createCategory', $datos);
@@ -156,6 +160,8 @@ class AdminController extends Controller
             $category = Admin::findOrFail($id);
             
             $datosHead['pageTitle'] = "Dashboard - Category";
+            $datosHead['css'] = asset('css/admin.css');
+
             $datosMenu =[
                 "nameUser"=> Session::get('firstName'). " - Admin",
                 "link"=>'http://127.0.0.1:8000/admin',
@@ -163,7 +169,7 @@ class AdminController extends Controller
             ];
           
 
-            $datos['head'] = view('sharedAdmin/head', $datosHead);
+            $datos['head'] = view('shared/head', $datosHead);
             $datos['menu'] = view('shared/menu', $datosMenu);
             return view('admin.editCategory',$datos ,compact('category'));
         }

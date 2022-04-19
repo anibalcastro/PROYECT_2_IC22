@@ -17,10 +17,14 @@ class UserController extends Controller
     public function index(){
         //
         $data['pageTitle'] = "Login / N-Noticias ";
-        $data['head'] = view('sharedUser.head',$data);
+        $data['css'] = asset('css/user.css');
+        $data['head'] = view('shared.head',$data);
         return view('user/login',$data);
     }
 
+    /**
+     * Valida login
+     */
     public function validateLogin(){
         //
         $datosLogin = request()->except('_token','btnSave');
@@ -76,10 +80,14 @@ class UserController extends Controller
        return $redirect;
     }
     
+    /**
+     * View register
+     */
     public function register(){
          //
          $data['pageTitle'] = "Registro / N-Noticias ";
-         $data['head'] = view('sharedUser.head',$data);
+         $data['css'] = asset('css/user.css');
+         $data['head'] = view('shared.head',$data);
          return view('user/register',$data);
     }
 
