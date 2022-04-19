@@ -1,11 +1,23 @@
-<input type="text" name="url" id="urlSource" value="{{ isset($source->url)? $source-> url: '')}}" aria-describedby = "helpId" placeholder="Url" required="true">
+<input type="text" class="form-control" name="url" id="urlSource" value="<?=$url?>" aria-describedby = "helpId" placeholder="Url" required="true">
                 
-                <input type="text" class="form-control" value="{{ isset($source->nameSource)?$source->nameSource:''}}" name="nameSource" id="nameSource" aria-describedby="helpId" placeholder="Name Source" required="true">
+                <input type="text" class="form-control" value="<?=$nameSource?>" name="nameSource" id="nameSource" aria-describedby="helpId" placeholder="Name Source" required="true">
 
                 <select name="idCategory" id="category"> 
-                    <?php foreach($categories as $category){?>
-                        <option value="<?=$category->id?>"><?=$category->name?></option>
-                    <?php } ?>
+                        <?php if(isset($idCategory)){
+                            foreach($categories as $category){
+                                if($source->idCategory == $idCategory ){
+                                    echo "<option value='$category->id' selected= 'selected'>$category->nameCategory</option>";
+                                }
+                                else{
+                                    echo "<option value='$category->id'>$category->nameCategory</option>";
+                                }
+                            }
+                        }
+                        else {
+                            foreach($categories as $category){
+                                echo "<option value='$category->id'>$category->nameCategory</option>";
+                            }
+                        }?>
                 </select>
 
                 <div class="linea_100"></div>

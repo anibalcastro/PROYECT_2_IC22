@@ -27,7 +27,6 @@ class SourceController extends Controller
         "link"=>'http://127.0.0.1:8000/source/create',
         "action"=>'New Source'
        ];
-       $datos['user'] = Session::get('firstName');
        
        $category = new \App\Models\Admin();
 
@@ -44,8 +43,37 @@ class SourceController extends Controller
      */
     public function create()
     {
-        //
-        return view('source.createSource');
+        //Instanciamos el modelo Admin
+        $category = new \App\Models\Admin();
+
+        //DataHead
+        $datosHead = [
+            "pageTitle" =>'Create Source / N-Noticias',
+            "css" => asset('css/source.css')
+        ];
+        
+        //DataMenu
+        $datosMenu =[
+         "nameUser"=> Session::get('firstName'),
+         "link"=>'http://127.0.0.1:8000/source/create',
+         "action"=>'New Source'
+        ];
+
+        //DataForm
+        $datosFormulario =
+        [
+            "url"=> "",
+            "nameSource"=>"",
+            "idCategory"=>null,
+            "categories" => $category::all()
+        ];
+
+        //Data view
+        $datos['head'] = view('shared/head', $datosHead);
+        $datos['menu'] = view('shared/menu', $datosMenu);
+        $datos['formSource'] = view('source.formSource', $datosFormulario);
+        
+        return view('source.createSource', $datos);
 
     }
 
