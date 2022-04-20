@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\SourceController;
+//use App\Http\Controllers\SourceController;
 
 /*
 |--------------------------------------------------------------------------
@@ -43,15 +43,21 @@ Route::delete('admin/{admin}', [AdminController::class, 'destroy']);
 //Source
 //Route::resource('source', SourceController::class);
 
-
-Route::get('source', [SourceController::class,'index'])-> name('Dashboard - Source / N-Noticias');
-Route::get('source/create', [SourceController::class, 'create'])-> name('Create new source / N-Noticias');
-Route::get('source/{source}/edit', [SourceController::class,'edit'])-> name('Edit source / N-Noticias');
-Route::post('source', [SourceController::class,'store']);
+Route::get('source', [SourceController::class, 'index'])-> name('Dashboard-Source / N-Noticias');
+Route::get('source/create', [SourceController::class,'create'])-> name('Create - Source / N-Noticias');
+Route::get('source/{source}/edit', [SourceController::class, 'edit'])->name('Edit Source / N-Noticias');
+Route::get('source/mysource', [SourceController::class, 'sources'])->name('My Source - Dashboard / N-Noticias');
+Route::post('source', [SourceController::class, 'store']);
 Route::patch('source/{source}', [SourceController::class, 'update']);
 Route::delete('source/{source}', [SourceController::class, 'destroy']);
-Route::get('source/mysource', [SourceController::class,'sources'])-> name('My Source - Dashboard / N-Noticias');
 
+Route::get('source', 'App\Http\Controllers\SourceController@index')-> name('Dashboard - Source / N-Noticias');
+Route::get('source/create', 'App\Http\Controllers\SourceController@create')-> name('Create new source / N-Noticias');
+Route::get('source/{source}/edit','App\Http\Controllers\SourceController@edit')-> name('Edit source / N-Noticias');
+Route::post('source', 'App\Http\Controllers\SourceController@store');
+Route::patch('source/{source}', 'App\Http\Controllers\SourceController@update');
+Route::get('source/mysource','App\Http\Controllers\SourceController@sources')-> name('My Source - Dashboard / N-Noticias');
+Route::delete('source/{source}', 'App\Http\Controllers\SourceController@destroy');
 
 
 //User \ Register \ login \ validateLogin \ registerAction
