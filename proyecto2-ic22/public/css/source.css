@@ -122,3 +122,16 @@ table th, tr{
     color: black;
     text-align: justify;
 }
+
+.actions{
+    display: flex;
+}
+
+#edit{
+    margin-left: 5px;
+}
+
+.btnDelete{
+    margin-left: 5px;
+}
+

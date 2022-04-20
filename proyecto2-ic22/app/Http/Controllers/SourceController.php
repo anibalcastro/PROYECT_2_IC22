@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use Models\Source;
+use \App\Model\Source;
 use Illuminate\Http\Request;
+use DB;
 use Barryvdh\Debugbar\Facade as Debugbar;
 Use Session;
 Use Redirect;
@@ -35,32 +36,8 @@ class SourceController extends Controller
        return view('source.dashboard',$datos);
     }
 
-    public function sources(){
-        //SELECT sources.id, sources.nameSource, sources.url, categories.nameCategory FROM `sources` INNER JOIN categories ON categories.ID = sources.idCategory WHERE idUser = 2;
-        
-        $sourceModel = new \App\Models\Source();
-        $resultDB = $sourceModel->all();/*
-        ->join('cateogories', 'sources.idCategory', '=', 'categories.id')
-        ->where('idUser', Session::get('idUser'));
-*/
-        var_dump($resultDB);
 
-        /*
-        $datosHead['pageTitle'] = "My sources / N-Noticias";
-        $datosHead['css'] = asset('css/source.css');
- 
-        $datosMenu =[
-         "nameUser"=> Session::get('firstName'),
-         "link"=>'http://127.0.0.1:8000/source',
-         "action"=>'News'
-        ];
 
-        $datos['head'] = view('shared/head', $datosHead);
-        $datos['menu'] = view('shared/menu', $datosMenu);
-        $datos['source'] = 
-        */
-
-    }
 
     /**
      * Show the form for creating a new resource.
@@ -120,8 +97,10 @@ class SourceController extends Controller
         $sourceModel = new \App\Models\Source();
         
         //Obtenemos resultados
-        $resultDB = $sourceModel::all()->where('nameSource', $datosSource['nameSource'])
+        $resultDB = $sourceModel::all()
+        ->where('nameSource', $datosSource['nameSource'])
         ->where('url', $datosSource['url'])
+        ->where('idCategory', $datosSource['idCategory'])
         ->where('idUser', $datosSource['idUser'])
         ->toArray();
             
@@ -185,5 +164,40 @@ class SourceController extends Controller
     public function destroy(Source $source)
     {
         //
+    }
+
+    public function sources(){
+        $sourceModel = new \App\Models\Source();
+        $resultDB = DB::table('sources')
+        ->select('sources.id', 'sources.nameSource', 'sources.url', 'categories.nameCategory')
+        ->join('categories', 'categories.id', '=', 'sources.idCategory')
+        ->where('idUser', Session::get('idUser'))->get();
+
+        $datosHead['pageTitle'] = "My source / N-Noticias";
+        $datosHead['css'] = asset('css/source.css');
+ 
+        $datosMenu =[
+         "nameUser"=> Session::get('firstName'),
+         "link"=>'http://127.0.0.1:8000/source',
+         "action"=>'My news'
+        ];
+        
+ 
+        $datos['head'] = view('shared/head', $datosHead);
+        $datos['menu'] = view('shared/menu', $datosMenu);
+        $datos['sources'] = json_decode ($resultDB);
+
+
+
+        /*
+        foreach ($json as $source) {
+            echo $source->id;
+            echo $source->nameSource;
+            echo $source->url;
+            echo $source->nameCategory;
+            echo '<br>';
+        } 
+        */
+        return view('source.showSource', $datos);
     }
 }

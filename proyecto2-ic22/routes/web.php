@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\SourceController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -40,16 +41,17 @@ Route::patch('admin/{admin}', [AdminController::class, 'update']);
 Route::delete('admin/{admin}', [AdminController::class, 'destroy']);
 
 //Source
-Route::resource('source', SourceController::class);
-Route::get('source/mysource', [SourceController::class,'sources'])-> name('My Source - Dashboard / N-Noticias');
-/*
+//Route::resource('source', SourceController::class);
+
+
 Route::get('source', [SourceController::class,'index'])-> name('Dashboard - Source / N-Noticias');
 Route::get('source/create', [SourceController::class, 'create'])-> name('Create new source / N-Noticias');
 Route::get('source/{source}/edit', [SourceController::class,'edit'])-> name('Edit source / N-Noticias');
 Route::post('source', [SourceController::class,'store']);
 Route::patch('source/{source}', [SourceController::class, 'update']);
 Route::delete('source/{source}', [SourceController::class, 'destroy']);
-*/
+Route::get('source/mysource', [SourceController::class,'sources'])-> name('My Source - Dashboard / N-Noticias');
+
 
 
 //User \ Register \ login \ validateLogin \ registerAction
