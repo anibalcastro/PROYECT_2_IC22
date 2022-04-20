@@ -116,23 +116,21 @@ class AdminController extends Controller
     {
         //Save category
         $datosCategory = request()->except('_token','btnSave');
-       
-        $resultDB = Admin::all();
         
-        foreach($resultDB as $categoria){
-            if ($categoria['nameCategory'] == $datosCategory['nameCategory']){
-                Session::flash('message','Error categoria ya existe');
-                Debugbar::addMessage('Error categoria ya existe', 'Error');
-                $redirect = Redirect::to('/admin/create');
-            }
-            else{
-                Admin::insert($datosCategory);
-                Session::flash('message','Agregado con exito');
-                Debugbar::addMessage('Agregado', 'aceptado');
-                $redirect = Redirect::to('/admin');
-                break;
-            }
+        $resultDB = Admin::all()->where('nameCategory', $datosCategory['nameCategory'])->toArray();
+
+        
+        if(sizeof($resultDB) >= 1){
+            Session::flash('message','Error categoria ya existe');
+            $redirect = Redirect::to("/admin/create");
         }
+        else {
+            
+            Admin::insert($datosCategory);
+            Session::flash('message','Agregado con exito');
+            $redirect = Redirect::to("/admin");
+        }
+        
         return $redirect;
     }
 

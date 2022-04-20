@@ -23,6 +23,8 @@ return new class extends Migration
             $table->string('adress');
             $table->string('phone');
             $table->integer('roleId');
+
+            //$table->foreign('roleId')->references('id')->on('roles');
             
             $table->timestamps();
         });

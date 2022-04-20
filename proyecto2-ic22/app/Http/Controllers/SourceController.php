@@ -93,28 +93,24 @@ class SourceController extends Controller
         $sourceModel = new \App\Models\Source();
         
         //Obtenemos resultados
-        $resultDB = $sourceModel::all();
-        
-        //
-        foreach($resultDB as $resultSource){
-            if ($resultSource['url'] == $datosSource['url'] 
-                && $resultSource['nameSource'] == $datosSource['nameSource'] 
-                && $resultSource['idCategory'] == $datosSource['idCategory']
-                && $resultSource['idUser'] == $datosSource['idUser'] ){
-
-                Session::flash('message','Error la fuente ya existe');
-                Debugbar::addMessage('Error categoria ya existe', 'Error');
-                $redirect = Redirect::to('/source/create');
-            }
-            else{
-                $sourceModel::insert($datosSource);
-                Session::flash('message','Fuente agregada con exito');
-                Debugbar::addMessage('Agregado', 'aceptado');
-                $redirect = Redirect::to('/source/show');
-                break;
-            }
+        $resultDB = $sourceModel::all()->where([
+            ['nameSource'. '=' ,$datosSource['nameSource']],
+            ['url', '=' ,$datosSource['url']],
+            ['idUser'], '=' ,$datosSource['idUser']])->toArray();
+            
+        if (sizeof($resultDB) >= 1){
+            Session::flash('message','Error la fuente ya existe');
+            Debugbar::addMessage('Error categoria ya existe', 'Error');
+            $redirect = Redirect::to('/source/create');
         }
-        
+        else 
+        {
+            $sourceModel::insert($datosSource);
+            Session::flash('message','Fuente agregada con exito');
+            Debugbar::addMessage('Agregado', 'aceptado');
+            $redirect = Redirect::to('/source/show');
+        }
+
         return $redirect;
     }
 

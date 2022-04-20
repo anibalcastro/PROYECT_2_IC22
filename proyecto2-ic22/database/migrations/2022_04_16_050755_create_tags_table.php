@@ -17,6 +17,8 @@ return new class extends Migration
             $table->id();
             $table->integer('idCategory');
             $table->string('nameTag')->unique();
+
+            //$table->foreign('idCategory')->references('id')->on('categories');
             $table->timestamps();
         });
     }
