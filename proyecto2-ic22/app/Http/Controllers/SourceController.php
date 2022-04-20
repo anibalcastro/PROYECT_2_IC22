@@ -24,7 +24,7 @@ class SourceController extends Controller
 
        $datosMenu =[
         "nameUser"=> Session::get('firstName'),
-        "link"=>'http://127.0.0.1:8000/source/create',
+        "link"=>'http://127.0.0.1:8000/source/mysource',
         "action"=>'New Source'
        ];
        
@@ -35,7 +35,6 @@ class SourceController extends Controller
        $datos['categories'] = $category::all();
        return view('source.dashboard',$datos);
     }
-
 
 
 
@@ -167,7 +166,7 @@ class SourceController extends Controller
     }
 
     public function sources(){
-        $sourceModel = new \App\Models\Source();
+
         $resultDB = DB::table('sources')
         ->select('sources.id', 'sources.nameSource', 'sources.url', 'categories.nameCategory')
         ->join('categories', 'categories.id', '=', 'sources.idCategory')
@@ -187,17 +186,6 @@ class SourceController extends Controller
         $datos['menu'] = view('shared/menu', $datosMenu);
         $datos['sources'] = json_decode ($resultDB);
 
-
-
-        /*
-        foreach ($json as $source) {
-            echo $source->id;
-            echo $source->nameSource;
-            echo $source->url;
-            echo $source->nameCategory;
-            echo '<br>';
-        } 
-        */
         return view('source.showSource', $datos);
     }
 }
