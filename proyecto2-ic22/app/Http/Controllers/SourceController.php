@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use \App\Model\Source;
+use App\Model\Source;
 use Illuminate\Http\Request;
 use DB;
 use Barryvdh\Debugbar\Facade as Debugbar;
@@ -160,9 +160,16 @@ class SourceController extends Controller
      * @param  \App\Models\Source  $source
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Source $source)
+    public function destroy($id)
     {
         //
+        $source = new \App\Models\Source();
+        $source::destroy($id);
+
+        //Faltan eliminar las noticias que contengan el id de la fuente.
+        
+        Session::flash('message','Delete are sucesfull');
+        return \redirect('/source/mysource');
     }
 
     public function sources(){
