@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Source extends Model
 {
     use HasFactory;
+    protected $namespace = 'App\\Http\\Controllers';
     protected $table = 'sources';
     protected $primaryKey = 'id';
 

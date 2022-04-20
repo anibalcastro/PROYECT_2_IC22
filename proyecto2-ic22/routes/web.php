@@ -41,6 +41,7 @@ Route::delete('admin/{admin}', [AdminController::class, 'destroy']);
 
 //Source
 Route::resource('source', SourceController::class);
+Route::get('source/mysource', [SourceController::class,'sources'])-> name('My Source - Dashboard / N-Noticias');
 /*
 Route::get('source', [SourceController::class,'index'])-> name('Dashboard - Source / N-Noticias');
 Route::get('source/create', [SourceController::class, 'create'])-> name('Create new source / N-Noticias');

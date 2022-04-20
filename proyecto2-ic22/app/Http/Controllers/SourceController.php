@@ -35,6 +35,33 @@ class SourceController extends Controller
        return view('source.dashboard',$datos);
     }
 
+    public function sources(){
+        //SELECT sources.id, sources.nameSource, sources.url, categories.nameCategory FROM `sources` INNER JOIN categories ON categories.ID = sources.idCategory WHERE idUser = 2;
+        
+        $sourceModel = new \App\Models\Source();
+        $resultDB = $sourceModel->all();/*
+        ->join('cateogories', 'sources.idCategory', '=', 'categories.id')
+        ->where('idUser', Session::get('idUser'));
+*/
+        var_dump($resultDB);
+
+        /*
+        $datosHead['pageTitle'] = "My sources / N-Noticias";
+        $datosHead['css'] = asset('css/source.css');
+ 
+        $datosMenu =[
+         "nameUser"=> Session::get('firstName'),
+         "link"=>'http://127.0.0.1:8000/source',
+         "action"=>'News'
+        ];
+
+        $datos['head'] = view('shared/head', $datosHead);
+        $datos['menu'] = view('shared/menu', $datosMenu);
+        $datos['source'] = 
+        */
+
+    }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -93,10 +120,10 @@ class SourceController extends Controller
         $sourceModel = new \App\Models\Source();
         
         //Obtenemos resultados
-        $resultDB = $sourceModel::all()->where([
-            ['nameSource'. '=' ,$datosSource['nameSource']],
-            ['url', '=' ,$datosSource['url']],
-            ['idUser'], '=' ,$datosSource['idUser']])->toArray();
+        $resultDB = $sourceModel::all()->where('nameSource', $datosSource['nameSource'])
+        ->where('url', $datosSource['url'])
+        ->where('idUser', $datosSource['idUser'])
+        ->toArray();
             
         if (sizeof($resultDB) >= 1){
             Session::flash('message','Error la fuente ya existe');
@@ -108,7 +135,7 @@ class SourceController extends Controller
             $sourceModel::insert($datosSource);
             Session::flash('message','Fuente agregada con exito');
             Debugbar::addMessage('Agregado', 'aceptado');
-            $redirect = Redirect::to('/source/show');
+            $redirect = Redirect::to('/source');
         }
 
         return $redirect;
