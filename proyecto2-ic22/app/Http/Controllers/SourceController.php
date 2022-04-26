@@ -142,7 +142,6 @@ class SourceController extends Controller
         $sourceModel = new \App\Models\Source();
         $category = new \App\Models\Admin();
 
-
         $resultDB =  $sourceModel::all()
         ->where('id', $id)->toArray();
     
@@ -160,14 +159,13 @@ class SourceController extends Controller
         ];
                 
         //DataMenu
-            $datosMenu =[
+        $datosMenu = [
             "nameUser"=> Session::get('firstName'),
-            "link"=>'http://127.0.0.1:8000/source/create',
+            "link"=>'http://127.0.0.1:8000/source/mysource',
             "action"=>'New Source'
         ];
 
-
-  
+        //DataForm
         $datosForm = [
             'idSource' => $id,
             'nameSource' => $nameSource,
@@ -224,6 +222,10 @@ class SourceController extends Controller
         return \redirect('source/mysource');
     }
 
+
+    /**
+     * Function to show source
+     */
     public function sources(){
 
         $resultDB = DB::table('sources')
