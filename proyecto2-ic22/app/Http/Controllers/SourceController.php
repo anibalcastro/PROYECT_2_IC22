@@ -11,8 +11,9 @@ Use Redirect;
 
 class SourceController extends Controller
 {
+
     //
-        /**
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
@@ -36,8 +37,6 @@ class SourceController extends Controller
        return view('source.dashboard',$datos);
     }
 
-
-
     /**
      * Show the form for creating a new resource.
      *
@@ -57,7 +56,7 @@ class SourceController extends Controller
         //DataMenu
         $datosMenu =[
          "nameUser"=> Session::get('firstName'),
-         "link"=>'http://127.0.0.1:8000/source/create',
+         "link"=>'http://127.0.0.1:8000/source/mysource',
          "action"=>'New Source'
         ];
 
