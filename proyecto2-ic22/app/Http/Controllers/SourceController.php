@@ -136,10 +136,57 @@ class SourceController extends Controller
      * @param  \App\Models\Source  $source
      * @return \Illuminate\Http\Response
      */
-    public function edit(Source $source)
+    public function edit($id)
     {
         //
-        return view('source.editSource');
+        $sourceModel = new \App\Models\Source();
+        $category = new \App\Models\Admin();
+
+
+        $resultDB =  $sourceModel::all()
+        ->where('id', $id)->toArray();
+    
+        foreach($resultDB as $iterador){
+            $idSource = $id;
+            $nameSource = $iterador['nameSource'];
+            $urlSource = $iterador['url'];
+            $idCategory = $iterador['idCategory']; 
+        }
+
+        //DataHead
+        $datosHead = [
+            "pageTitle" =>'Create Source / N-Noticias',
+            "css" => asset('css/source.css')
+        ];
+                
+        //DataMenu
+            $datosMenu =[
+            "nameUser"=> Session::get('firstName'),
+            "link"=>'http://127.0.0.1:8000/source/create',
+            "action"=>'New Source'
+        ];
+
+
+  
+        $datosForm = [
+            'idSource' => $id,
+            'nameSource' => $nameSource,
+            'url' => $urlSource,
+            'idCategory' => $idCategory,
+            'categories' => $category::all(),
+            'idUser' => Session::get('idUser')
+        ];
+
+        
+        //Data view
+        $datos['head'] = view('shared/head', $datosHead);
+        $datos['menu'] = view('shared/menu', $datosMenu);
+        $datos['id'] = $id;
+        $datos['formSource'] = view('source.formSource', $datosForm);
+
+
+        return view('source.editSource', $datos);
+        
     }
 
     /**
@@ -149,9 +196,14 @@ class SourceController extends Controller
      * @param  \App\Models\Source  $source
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Source $source)
+    public function update(Request $request, $id)
     {
         //
+        $datosSource = request()->except('_token','btnSave','_method');
+        $sourceModel = new \App\Models\Source();
+        $sourceModel::where('id','=',$id)->update($datosSource);
+        Session::flash('message','Edit are sucesfull');
+        return Redirect::to('source/mysource');
     }
 
     /**
@@ -169,7 +221,7 @@ class SourceController extends Controller
         //Faltan eliminar las noticias que contengan el id de la fuente.
         
         Session::flash('message','Delete are sucesfull');
-        return \redirect('/source/mysource');
+        return \redirect('source/mysource');
     }
 
     public function sources(){

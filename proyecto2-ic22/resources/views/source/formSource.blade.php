@@ -5,7 +5,7 @@
                 <select name="idCategory" id="category"> 
                         <?php if(isset($idCategory)){
                             foreach($categories as $category){
-                                if($source->idCategory == $idCategory ){
+                                if($category->idCategory == $idCategory ){
                                     echo "<option value='$category->id' selected= 'selected'>$category->nameCategory</option>";
                                 }
                                 else{
