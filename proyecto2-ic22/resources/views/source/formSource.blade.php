@@ -3,21 +3,23 @@
                 <input type="text" class="form-control" value="<?=$nameSource?>" name="nameSource" id="nameSource" aria-describedby="helpId" placeholder="Name Source" required="true">
 
                 <select name="idCategory" id="category"> 
-                        <?php if(isset($idCategory)){
-                            foreach($categories as $category){
-                                if($category->idCategory == $idCategory ){
+                    <?php 
+                        foreach($categories as $category){
+                            if(isset($idCategory)){
+                                if ($idCategory == $category->id){
                                     echo "<option value='$category->id' selected= 'selected'>$category->nameCategory</option>";
                                 }
-                                else{
+                                else {
                                     echo "<option value='$category->id'>$category->nameCategory</option>";
                                 }
+                                
                             }
-                        }
-                        else {
-                            foreach($categories as $category){
-                                echo "<option value='$category->id'>$category->nameCategory</option>";
-                            }
-                        }?>
+                            else{
+                                echo "<option value='$category->id'>$category->nameCategory</option>"; 
+                            }    
+                        } 
+                    ?>
+                    
                 </select>
 
                 <input type="hidden" name="idUser" value="<?=$idUser?>">
