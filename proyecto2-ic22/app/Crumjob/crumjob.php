@@ -68,27 +68,47 @@ function createNews($xmlTitle, $xmlDescription, $xmlLink, $dateTime, $idSource, 
     $title = str_replace("'", "", $xmlTitle);
     $descripction = str_replace("'", "", $xmlDescription);
 
-    $sqlInsert = "INSERT INTO `news`(`title`,`shortDescription`,`permanLink`,`fecha`,`news_source_id`,`user_id`,`category_id`)VALUES('$title','$descripction','$xmlLink','$dateTime',$idSource,$idUser,$idCategoria);";
+    $sqlInsert = "INSERT INTO `news`(`title`,`shortDescription`,`permanLink`,`date`,`sourceId`,`userId`,`categoryId`, `tags`)VALUES('$title','$descripction','$xmlLink','$dateTime',$idSource,$idUser,$idCategoria, '$tags');";
     
     //echo $sqlInsert;
     $result = mysqli_query($connection, $sqlInsert);
     mysqli_close($connection);
 }
 
+/**
+ * Function to create Tags
+ */
+function createTags($idCategory, $nameTag){
+    try {
+       $connection = conexion();
+       $sqlInsert = "INSERT INTO `tags`(`idCategory`, `nameTag`)
+       VALUES($idCategory, '$nameTag')";
+
+       mysqli_query($connection, $sqlInsert);
+       mysqli_close($connection);
+       return true;
+    } catch (\Throwable $th) {
+        return false;
+    }
+}
+
+
+
+
 //Obtain result
 $sources = getSource();
 
+foreach($sources as $source){
+    $idSource = $source[0];
+    $urlSource = $source[1];
+    $idCategory = $source[3];
+    $nameCategory = getNameCategoryById($idCategory);
+    $idUser = $source[4];
 
-
-
-
-
-$url = 'https://feeds.feedburner.com/crhoy/wSjk';
-
-if (@simplexml_load_file($url))
+    if (@simplexml_load_file($urlSource))
     {
         //Si es valido lo agrega a la variable $feed.
-        $feeds = simplexml_load_file($url);
+        $feeds = simplexml_load_file($urlSource);
     }
     else
     {
@@ -97,10 +117,8 @@ if (@simplexml_load_file($url))
         echo "RSS Invalido, identificador ".$idSource." URL=".$url. PHP_EOL;
     }
 
-    //Si no esta vacio accede al ciclo
-    if (!empty($feeds))
-    {
-        /**
+    if(!empty($feeds)){
+                /**
          * Iteramos el xml, y obtenemos lo que ocupemos.
          */
         foreach ($feeds
@@ -119,40 +137,56 @@ if (@simplexml_load_file($url))
             $xmlPubDate = $item->pubDate;
 
             $xmlCategoriaPrincipal = $item->category;
-            
-           
+            //echo $xmlCategoriaPrincipal.'=='.$nameCategory.PHP_EOL;
 
-            if ($xmlCategoriaPrincipal = 'Nacional'){
-                echo "Titulo: ". $xmlTitle.PHP_EOL;
-                echo "Link:".$xmlLink.PHP_EOL;
-                echo "Descripcion:".$xmlDescription.PHP_EOL;
-                echo "Publicacion:".$xmlPubDate.PHP_EOL;
-                    //Obtener cantidad de categorias
-                $cantCategories = sizeof($item->category);
-                for ($i=0; $i < $cantCategories; $i++) { 
+            if ($xmlCategoriaPrincipal == $nameCategory)
+            {
+                $tagsNews = '';
+                $date = date_create("$xmlPubDate");
+                $dateTime = date_format($date, "Y/m/d H:i:s");
 
-                    if ($i == 0){
-                        //Categoria principal
-                        echo "Categoria Principal:".$item->category[$i].PHP_EOL;
+                if(!existsNews($xmlLink, $idUser))
+                {
+                     //Obtener cantidad de categorias
+                    $cantCategories = sizeof($xmlCategoriaPrincipal);
+
+                    for ($i=0; $i < $cantCategories; $i++) { 
+
+                        if ($i > 0){
+                            //Etiquetas
+                            $tags = $item->category[$i];
+                            
+                            //crear etiqueta
+                            if (createTags($idCategory, $tags)){
+                                $tagsNews .= $tags.' / ';
+                            }
+                            else {
+                                $tagsNews .= $tags.' / ';
+                            }
+                        
+                        }
                     }
-                    else{
-                        //Etiquetas
-                        echo "Etiqueta:".$item->category[$i].PHP_EOL;
-                        //Validar si la etiqueta existe
 
-                        //Obtener idCategoria 
+                    createNews($xmlTitle, $xmlDescription, $xmlLink, $dateTime, $idSource, $idCategory, $tagsNews, $idUser);
+                    $tagsNews = '';
 
-                        //Agregar a la BD
-
-                        //Guardar etiquetas
-
-                    }
+                    /*
+                    echo "Titulo: ". $xmlTitle.PHP_EOL;
+                    echo "Link: ".$xmlLink.PHP_EOL;
+                    echo "Descripcion: ".$xmlDescription.PHP_EOL;
+                    echo "Publicacion: ".$xmlPubDate.PHP_EOL;
+                    echo "Categoria Principal: ".$xmlCategoriaPrincipal.PHP_EOL;
+                    echo "Etiquetas: ".$tagsNews.PHP_EOL;
+                    echo "".PHP_EOL;
+                    echo "".PHP_EOL;
+                    echo "".PHP_EOL;
+                    */
+                }    
             }
-                echo "".PHP_EOL;
-                echo "".PHP_EOL;
-                echo "".PHP_EOL;
-            }
-    
         }
-    }
 
+    }
+    
+}
+
+echo 'Noticias Actualizadas';
