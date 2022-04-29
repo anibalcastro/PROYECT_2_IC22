@@ -14,7 +14,7 @@ function conexion()
 function getSource()
 {
     $connection = conexion();
-    $sqlGetSource = "SELECT * FROM `news_source`;";
+    $sqlGetSource = "SELECT * FROM `sources`;";
     $resultado = mysqli_query($connection, $sqlGetSource);
     mysqli_close($connection);
 
@@ -26,7 +26,7 @@ function getSource()
  */
 function getNameCategoryById($idCategory)
 {
-    $sqlGetCategory = "SELECT `name` FROM `categories` WHERE `id` = $idCategory;";
+    $sqlGetCategory = "SELECT `nameCategory` FROM `categories` WHERE `id` = $idCategory;";
     $connection = conexion();
 
     $result = mysqli_query($connection, $sqlGetCategory);
@@ -43,7 +43,7 @@ function getNameCategoryById($idCategory)
 function existsNews($link, $idUser)
 {
     $boolean = false;
-    $sqlExists = "SELECT `id` FROM `news` WHERE `perman_link` = '$link' AND `user_id` = $idUser;";
+    $sqlExists = "SELECT `id` FROM `news` WHERE `permanLink` = '$link' AND `userId` = $idUser;";
     $connection = conexion();
 
     $result = mysqli_query($connection, $sqlExists);
@@ -68,7 +68,7 @@ function createNews($xmlTitle, $xmlDescription, $xmlLink, $dateTime, $idSource, 
     $title = str_replace("'", "", $xmlTitle);
     $descripction = str_replace("'", "", $xmlDescription);
 
-    $sqlInsert = "INSERT INTO `news`(`title`,`short_description`,`perman_link`,`fecha`,`news_source_id`,`user_id`,`category_id`)VALUES('$title','$descripction','$xmlLink','$dateTime',$idSource,$idUser,$idCategoria);";
+    $sqlInsert = "INSERT INTO `news`(`title`,`shortDescription`,`permanLink`,`fecha`,`news_source_id`,`user_id`,`category_id`)VALUES('$title','$descripction','$xmlLink','$dateTime',$idSource,$idUser,$idCategoria);";
     
     //echo $sqlInsert;
     $result = mysqli_query($connection, $sqlInsert);
@@ -117,39 +117,37 @@ if (@simplexml_load_file($url))
             
             //fecha noticia
             $xmlPubDate = $item->pubDate;
+
+            $xmlCategoriaPrincipal = $item->category;
             
-            //Obtener cantidad de categorias
-            $cantCategories = sizeof($item->category);
-            for ($i=0; $i < $cantCategories; $i++) { 
-
-                if ($i == 0){
-                    //Categoria principal
-                    echo "Categoria Principal:".$item->category[$i].PHP_EOL;
-                }
-                else{
-                    //Etiquetas
-                    echo "Etiqueta:".$item->category[$i].PHP_EOL;
-                    //Validar si la etiqueta existe
-
-                    //Obtener idCategoria 
-
-                    //Agregar a la BD
-
-                    //Guardar etiquetas
-
-                }
-            }
+           
 
             if ($xmlCategoriaPrincipal = 'Nacional'){
                 echo "Titulo: ". $xmlTitle.PHP_EOL;
                 echo "Link:".$xmlLink.PHP_EOL;
                 echo "Descripcion:".$xmlDescription.PHP_EOL;
                 echo "Publicacion:".$xmlPubDate.PHP_EOL;
-                echo "Categoria Principal:".$xmlCategoriaPrincipal.PHP_EOL;
-                echo "Etiqueta 1:".$xmlEtiqueta1.PHP_EOL;
-                echo "Etiqueta 2:".$xmlEtiqueta2.PHP_EOL;
-                echo "Etiqueta 3:".$xmlEtiqueta3.PHP_EOL;
-                echo "Etiqueta 4:".$xmlEtiqueta4.PHP_EOL;
+                    //Obtener cantidad de categorias
+                $cantCategories = sizeof($item->category);
+                for ($i=0; $i < $cantCategories; $i++) { 
+
+                    if ($i == 0){
+                        //Categoria principal
+                        echo "Categoria Principal:".$item->category[$i].PHP_EOL;
+                    }
+                    else{
+                        //Etiquetas
+                        echo "Etiqueta:".$item->category[$i].PHP_EOL;
+                        //Validar si la etiqueta existe
+
+                        //Obtener idCategoria 
+
+                        //Agregar a la BD
+
+                        //Guardar etiquetas
+
+                    }
+            }
                 echo "".PHP_EOL;
                 echo "".PHP_EOL;
                 echo "".PHP_EOL;

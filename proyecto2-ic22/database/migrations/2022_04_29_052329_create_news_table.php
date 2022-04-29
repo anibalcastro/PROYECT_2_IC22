@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('title');
             $table->string('shortDescription');
             $table->string('permanLink');
+            $table->datetime('date');
             $table->integer('sourceId');
             $table->integer('categoryId');
             $table->string('tags');
