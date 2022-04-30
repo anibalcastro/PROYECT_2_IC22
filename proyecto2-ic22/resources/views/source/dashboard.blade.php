@@ -16,18 +16,37 @@
         <h1 class="display-4">Your unique News Cover</h1>
         <div class="linea_100"></div>
         <div id="grupoBtn" class="btn-group flex-wrap" role="group" aria-label="Button group with nested dropdown">
-            <a href="#" type="button" type="button" class="btn btn-secondary">Portada</a>
+            <a href="" type="button" type="button" class="btn btn-secondary">Portada</a>
             @foreach ($categories as $category)
-            <a href="#" type="button" type="button" class="btn btn-secondary"><?=$category->nameCategory?></a>
+            <form action="{{url('/searchByCategories')}}" method="post">
+                @csrf
+                <input type="hidden" name="idCategory" value=<?=$category->id?>>
+                <input type="submit" class="btn btn-secondary" value="<?=$category->nameCategory?>">
+            </form>
             @endforeach
         </div>
+
+        <br>
+        @if(!empty($tags))
+        <div id="grupoBtn" class="btn-group flex-wrap" role="group" aria-label="Button group with nested dropdown">
+        @foreach($tags as $tag)
+        
+            <form action="{{url('/searchByTag')}}" method="post">
+                @csrf
+                <input type="hidden" name="idCategory" value=<?=$idCategory?>>
+                <input type="hidden" name="nameTag" value=<?=$tag->nameTag?>>
+                <input type="submit" class="btn btn-secondary" value="<?=$tag->nameTag?>">
+            </form>
+        @endforeach
+        </div>
+        @endif
     </div>
 
     <!--Search news-->
     <div class="buscador">
         <form id="formSearch" action="{{url('/search')}}" method="post">
             @csrf
-            <input type="text" class="form-control" id="inpSearch" name="inpSearch" placeholder='Search New'/>
+            <input type="text" class="form-control" id="inpSearch" name="inpSearch" placeholder='Search New' />
             <input type="submit" class="btn btn-primary" id="subSearch" name="btnSearch" value="Search">
         </form>
     </div>

@@ -157,3 +157,9 @@ table th, tr{
     margin-right: 116px
 }
 
+#grupoBtn{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
