@@ -35,9 +35,12 @@ class SourceController extends Controller
       
 
        $resultDb = DB::table('news')
-       ->select('news.title', 'news.shortDescription', 'news.permanLink', 'news.date', 'categories.nameCategory', 'news.tags')
+       ->select('news.title', 'news.shortDescription', 'news.permanLink', 'news.date' ,'sources.nameSource' ,'categories.nameCategory', 'news.tags')
        ->join('categories', 'categories.id', '=', 'news.categoryId')
-       ->where('userId', Session::get('idUser'))->get();
+       ->join('sources','sources.id', '=', 'news.sourceId')
+       ->where('userId', Session::get('idUser'))
+       ->orderBy('news.date', 'DESC')
+       ->get();
 
 
 
