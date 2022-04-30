@@ -11,5 +11,5 @@ class News extends Model
     protected $table = 'news';
     protected $primaryKey = 'id';
 
-    protected $fillable = ['title', 'shortDescription', 'permanLink', 'sourceId', 'categoryId' , 'tags' , 'userId'];
+    protected $fillable = ['title', 'shortDescription', 'permanLink', 'date', 'sourceId', 'categoryId' , 'tags' , 'userId'];
 }

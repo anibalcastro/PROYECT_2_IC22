@@ -30,10 +30,25 @@ class SourceController extends Controller
        ];
        
        $category = new \App\Models\Admin();
+       $news  =  new \App\Models\News();
+
+      
+
+       $resultDb = DB::table('news')
+       ->select('news.title', 'news.shortDescription', 'news.permanLink', 'news.date', 'categories.nameCategory', 'news.tags')
+       ->join('categories', 'categories.id', '=', 'news.categoryId')
+       ->where('userId', Session::get('idUser'))->get();
+
+
+
+
 
        $datos['head'] = view('shared/head', $datosHead);
        $datos['menu'] = view('shared/menu', $datosMenu);
        $datos['categories'] = $category::all();
+       $datos['news'] = json_decode($resultDb);
+
+
        return view('source.dashboard',$datos);
     }
 
