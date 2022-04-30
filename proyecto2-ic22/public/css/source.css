@@ -135,3 +135,25 @@ table th, tr{
     margin-left: 5px;
 }
 
+.buscador{
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    flex-direction: column-reverse;
+    /*margin-right: 73px;*/
+}
+
+#formSearch{
+    display: flex;
+    align-items: end;
+}
+
+#inpSearch{
+    width: 184px;
+    height: 38px;
+}
+
+#subSearch{
+    margin-right: 116px
+}
+

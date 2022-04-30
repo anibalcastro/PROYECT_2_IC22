@@ -30,10 +30,7 @@ class SourceController extends Controller
        ];
        
        $category = new \App\Models\Admin();
-       $news  =  new \App\Models\News();
-
       
-
        $resultDb = DB::table('news')
        ->select('news.title', 'news.shortDescription', 'news.permanLink', 'news.date' ,'sources.nameSource' ,'categories.nameCategory', 'news.tags')
        ->join('categories', 'categories.id', '=', 'news.categoryId')
@@ -53,6 +50,41 @@ class SourceController extends Controller
 
 
        return view('source.dashboard',$datos);
+    }
+
+    public function searchNew(Request $request){
+
+        $datosBuscar = request()->except('_token','btnSearch');
+        $Busqueda = $datosBuscar['inpSearch'];
+
+        $resultDb = DB::table('news')
+        ->select('news.title', 'news.shortDescription', 'news.permanLink', 'news.date' ,'sources.nameSource' ,'categories.nameCategory', 'news.tags')
+        ->join('categories', 'categories.id', '=', 'news.categoryId')
+        ->join('sources','sources.id', '=', 'news.sourceId')
+        ->where('userId', Session::get('idUser'))
+        ->Where('news.title', 'like', "%$Busqueda%")
+        ->orderBy('news.date', 'DESC')
+        ->get();
+
+        $datosHead['pageTitle'] = "Dashboard - Category";
+        $datosHead['css'] = asset('css/source.css');
+ 
+        $datosMenu =[
+         "nameUser"=> Session::get('firstName'),
+         "link"=>'http://127.0.0.1:8000/source/mysource',
+         "action"=>'New Source'
+        ];
+        
+        $category = new \App\Models\Admin();
+
+        $datos['head'] = view('shared/head', $datosHead);
+        $datos['menu'] = view('shared/menu', $datosMenu);
+        $datos['categories'] = $category::all();
+        $datos['news'] = json_decode($resultDb);
+ 
+ 
+        return view('source.dashboard',$datos);
+
     }
 
     /**

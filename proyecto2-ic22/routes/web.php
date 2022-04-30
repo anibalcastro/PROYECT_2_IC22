@@ -54,7 +54,10 @@ Route::delete('source/{source}', [SourceController::class, 'destroy']);
 Route::get('source', 'App\Http\Controllers\SourceController@index')-> name('Dashboard - Source / N-Noticias');
 Route::get('source/create', 'App\Http\Controllers\SourceController@create')-> name('Create new source / N-Noticias');
 Route::get('source/{source}/edit','App\Http\Controllers\SourceController@edit')-> name('Edit source / N-Noticias');
+
 Route::post('source', 'App\Http\Controllers\SourceController@store');
+Route::post('search', 'App\Http\Controllers\SourceController@searchNew');
+
 Route::patch('source/{source}', 'App\Http\Controllers\SourceController@update');
 Route::get('source/mysource','App\Http\Controllers\SourceController@sources')-> name('My Source - Dashboard / N-Noticias');
 Route::delete('source/{source}', 'App\Http\Controllers\SourceController@destroy');
