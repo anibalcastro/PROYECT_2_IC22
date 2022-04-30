@@ -22,40 +22,27 @@
             @endforeach
         </div>
     </div>
-    <?php
-   // if (sizeof($news) > 0){
-        foreach($news as $noticias){
-        
-            echo $noticias['title'];//TITULO
-            echo $noticias['shortDescription'];//DESCRIPCION
-            echo $noticias['permanLink'];//LINK
-            echo $noticias['date'];//FECHA
-            echo $noticias['sourceId'];//FUENTE
-            echo $noticias['nameCategory'];//CATEGORIA
-            echo $noticias['tags'];//CATEGORIA
-            die;
-            
-            
-            
-    ?>
+
+
+    @if(sizeof($news) > 0)
+    @foreach($news as $noticias)
+
+
     <div class="contNoticias">
-        <a target="_blanc" href=<?php echo "$noticias[2]"?>>
-            <H6><?php echo $noticias[3];?></H6>
-            <h1 class="tituloNoticia"><?php echo $noticias[0] ?></h1>
-            <p class="descripcionNoticia"><?php echo $noticias[1]; ?></p>
-            <a target="_blanc" href=<?php echo "$noticias[2]"?>>Ver mas</a>
-            <H6><?php echo $noticias[4]. " / ".$noticias[5]?></H6>
-        </a>
+        
+            <H6><?php echo $noticias->date;?></H6>
+            <a target="_blanc" href=<?php echo $noticias->permanLink;?>>
+            <h1 class="tituloNoticia"><?php echo $noticias->title;?></h1>
+            </a>
+            <p class="descripcionNoticia"><?php echo $noticias->shortDescription; ; ?></p>
+            <a target="_blanc" href=<?php echo $noticias->permanLink;?>>Ver mas</a>
+            <H6><?php echo $noticias->nameSource . " / ". $noticias->nameCategory; ?></H6>
+            <H6><?php echo $noticias->tags;?></H6>
+    
     </div>
-    <?php  
-  }
-//}  
-  ?>
-    }
-    }
-
+    @endforeach
+    @endif
     @include('shared/footer');
-
 
 </body>
 
