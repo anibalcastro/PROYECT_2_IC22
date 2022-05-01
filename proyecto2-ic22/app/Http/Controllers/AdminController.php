@@ -6,8 +6,8 @@ use App\Models\Admin;
 //use App\Http\Controllers\Debugbar;
 use Barryvdh\Debugbar\Facade as Debugbar;
 use Illuminate\Http\Request;
-Use Session;
-Use Redirect;
+use Session;
+use Redirect;
 
 class AdminController extends Controller
 {
@@ -20,62 +20,58 @@ class AdminController extends Controller
     {
         //     
         try {
-            if(AdminController::validateSession()){
+            if (AdminController::validateSession()) {
 
                 $datosHead['pageTitle'] = "Dashboard - Category";
                 $datosHead['css'] = asset('css/admin.css');
 
-                $datosMenu =[
-                    "nameUser"=> Session::get('firstName'). " - Admin",
-                    "link"=>'http://127.0.0.1:8000/admin/create',
-                    "action"=>'Categories'
+                $datosMenu = [
+                    "nameUser" => Session::get('firstName') . " - Admin",
+                    "link" => 'http://127.0.0.1:8000/admin/create',
+                    "action" => 'Categories'
                 ];
-              
+
 
                 $datos['categories'] = Admin::all();
                 $datos['head'] = view('shared/head', $datosHead);
                 $datos['menu'] = view('shared/menu', $datosMenu);
 
                 return view('admin.dashboard', $datos);
-            }
-            else{
+            } else {
                 return Redirect::to('/');
             }
         } catch (\Throwable $th) {
-            Session::flash('message',"Error" );
+            Session::flash('message', "Error");
             return  Redirect::to('/');
         }
-
     }
 
     /**
      * Validate session
      */
-    public static function validateSession(){
+    public static function validateSession()
+    {
         //       
-        if(Session::get('session_start')){
-            
+        if (Session::get('session_start')) {
+
             $roleId = Session::get('roleId');
-            
-            if ($roleId!=1){
+
+            if ($roleId != 1) {
                 return  false;
-            }
-            else {
+            } else {
                 return true;
             }
-        }
-        else{
+        } else {
             return false;
         }
     }
 
-    public function exit(){
+    public function exit()
+    {
         //
         session()->forget(['email', 'firstName', 'roleId']);
         session(['session_start' => false]);
         return Redirect::to('/');
-        
-
     }
 
     /**
@@ -85,23 +81,22 @@ class AdminController extends Controller
      */
     public function create()
     {
-        if(AdminController::validateSession()){
+        if (AdminController::validateSession()) {
             $datosHead['pageTitle'] = "Dashboard - Category";
             $datosHead['css'] = asset('css/admin.css');
 
-            $datosMenu =[
-                "nameUser"=> Session::get('firstName'). " - Admin",
-                "link"=>'http://127.0.0.1:8000/admin',
-                "action"=>'Categories'
+            $datosMenu = [
+                "nameUser" => Session::get('firstName') . " - Admin",
+                "link" => 'http://127.0.0.1:8000/admin',
+                "action" => 'Categories'
             ];
-          
+
 
             $datos['head'] = view('shared/head', $datosHead);
             $datos['menu'] = view('shared/menu', $datosMenu);
             //return view
             return view('admin.createCategory', $datos);
-        }
-        else {
+        } else {
             return Redirect::to('/');
         }
     }
@@ -115,22 +110,21 @@ class AdminController extends Controller
     public function store(Request $request)
     {
         //Save category
-        $datosCategory = request()->except('_token','btnSave');
-        
+        $datosCategory = request()->except('_token', 'btnSave');
+
         $resultDB = Admin::all()->where('nameCategory', $datosCategory['nameCategory'])->toArray();
 
-        
-        if(sizeof($resultDB) >= 1){
-            Session::flash('message','Error categoria ya existe');
+
+        if (sizeof($resultDB) >= 1) {
+            Session::flash('message', 'Error categoria ya existe');
             $redirect = Redirect::to("/admin/create");
-        }
-        else {
-            
+        } else {
+
             Admin::insert($datosCategory);
-            Session::flash('message','Agregado con exito');
+            Session::flash('message', 'Agregado con exito');
             $redirect = Redirect::to("/admin");
         }
-        
+
         return $redirect;
     }
 
@@ -154,24 +148,23 @@ class AdminController extends Controller
     public function edit($id)
     {
         //
-        if (AdminController::validateSession()){
+        if (AdminController::validateSession()) {
             $category = Admin::findOrFail($id);
-            
+
             $datosHead['pageTitle'] = "Dashboard - Category";
             $datosHead['css'] = asset('css/admin.css');
 
-            $datosMenu =[
-                "nameUser"=> Session::get('firstName'). " - Admin",
-                "link"=>'http://127.0.0.1:8000/admin',
-                "action"=>'Categories'
+            $datosMenu = [
+                "nameUser" => Session::get('firstName') . " - Admin",
+                "link" => 'http://127.0.0.1:8000/admin',
+                "action" => 'Categories'
             ];
-          
+
 
             $datos['head'] = view('shared/head', $datosHead);
             $datos['menu'] = view('shared/menu', $datosMenu);
-            return view('admin.editCategory',$datos ,compact('category'));
-        }
-        else{
+            return view('admin.editCategory', $datos, compact('category'));
+        } else {
             $redirect = Redirect::to('/');
         }
     }
@@ -186,9 +179,9 @@ class AdminController extends Controller
     public function update(Request $request, $id)
     {
         //
-        $datosCategory = request()->except('_token','btnSave','_method');
-        Admin::where('id','=',$id)->update($datosCategory);
-        Session::flash('message','Edit are sucesfull');
+        $datosCategory = request()->except('_token', 'btnSave', '_method');
+        Admin::where('id', '=', $id)->update($datosCategory);
+        Session::flash('message', 'Edit are sucesfull');
         return Redirect::to('/admin');
     }
 
@@ -202,7 +195,7 @@ class AdminController extends Controller
     {
         //
         Admin::destroy($id);
-        Session::flash('message','Delete are sucesfull');
+        Session::flash('message', 'Delete are sucesfull');
         return \redirect('admin');
     }
 }
