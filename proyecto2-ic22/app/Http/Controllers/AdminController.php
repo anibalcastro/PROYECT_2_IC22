@@ -51,7 +51,7 @@ class AdminController extends Controller
     /**
      * Validate session
      */
-    public function validateSession(){
+    public static function validateSession(){
         //       
         if(Session::get('session_start')){
             

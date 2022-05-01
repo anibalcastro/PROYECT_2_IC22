@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\NewsController;
-//use App\Http\Controllers\SourceController;
+use App\Http\Controllers\SourceController;
 
 /*
 |--------------------------------------------------------------------------
@@ -38,7 +38,8 @@ Route::get('source/{source}/edit','App\Http\Controllers\SourceController@edit')-
 Route::patch('source/{source}', 'App\Http\Controllers\SourceController@update');
 Route::get('source/mysource','App\Http\Controllers\SourceController@sources')-> name('My Source - Dashboard / N-Noticias');
 Route::delete('source/{source}', 'App\Http\Controllers\SourceController@destroy');
-Route::post('source', 'App\Http\Controllers\NewsController@store');
+Route::post('source',[SourceController::class, 'store']);
+Route::post('source', 'App\Http\Controllers\SourceController@store');
 
 
 //User routes 

@@ -5,11 +5,11 @@
             <!-- Section: CTA -->
             <section class="submenu">
                 <nav class="nav">
-                    <a class="nav-link active" href="#">My Cover</a>
-                    <a class="nav-link disabled" href="#">|</a>
-                    <a class="nav-link" href="#">About</a>
-                    <a class="nav-link disabled" href="#">|</a>
-                    <a class="nav-link" href="#">Help</a>
+                    <a id="item" class="nav-link active" href="#">My Cover</a>
+                    <a id="item" class="nav-link disabled" href="#">|</a>
+                    <a id="item" class="nav-link" href="#">About</a>
+                    <a id="item" class="nav-link disabled" href="#">|</a>
+                    <a id="item" class="nav-link" href="#">Help</a>
                 </nav>
             </section>
             <!-- Section: CTA -->

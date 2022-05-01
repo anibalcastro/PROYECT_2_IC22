@@ -22,6 +22,27 @@ class UserController extends Controller
         return view('user/login',$data);
     }
 
+        /**
+     * Validate session
+     */
+    public function validarSession(){
+        //       
+        if(Session::get('session_start')){
+            
+            $roleId = Session::get('roleId');
+            
+            if ($roleId!=1){
+                return  false;
+            }
+            else {
+                return true;
+            }
+        }
+        else{
+            return false;
+        }
+    }
+
     /**
      * Valida login
      */
@@ -55,7 +76,7 @@ class UserController extends Controller
                 }
                 else {
                     //Redirecciona al dashboard - noticias
-                    $redirect = Redirect::to('/source');
+                    $redirect = Redirect::to('/news');
                 }
 
                 //Rompe el ciclo

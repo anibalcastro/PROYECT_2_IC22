@@ -35,6 +35,10 @@ footer{
     margin-top: 50px;
 }
 
+#item {
+    color: white;
+}
+
 .submenu{
     display: flex;
     align-items: center;

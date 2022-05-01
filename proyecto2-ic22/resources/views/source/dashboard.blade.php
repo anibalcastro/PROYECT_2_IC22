@@ -16,7 +16,7 @@
         <h1 class="display-4">Your unique News Cover</h1>
         <div class="linea_100"></div>
         <div id="grupoBtn" class="btn-group flex-wrap" role="group" aria-label="Button group with nested dropdown">
-            <a href="" type="button" type="button" class="btn btn-secondary">Portada</a>
+            <a href="news" type="button" type="button" class="btn btn-secondary">Portada</a>
             @foreach ($categories as $category)
             <form action="{{url('/searchByCategories')}}" method="post">
                 @csrf
@@ -74,7 +74,7 @@
     @else
     <H5>No hay noticias relacionadas, si quieres agregar <a href="source/create">click aqui</a></H5>
     @endif
-    @include('shared/footer');
+    @include('shared/footer')
 
 </body>
 

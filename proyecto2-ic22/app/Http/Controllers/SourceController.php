@@ -11,6 +11,23 @@ Use Redirect;
 
 class SourceController extends Controller
 {
+
+    public function validarSessionUsuario(){
+        if(Session::get('session_start')){
+            
+            $roleId = Session::get('roleId');
+            
+            if ($roleId!=1){
+                return  true;
+            }
+            else {
+                return false;
+            }
+        }
+        else{
+            return false;
+        }
+    }
     /**
      * Show the form for creating a new resource.
      *
@@ -18,39 +35,43 @@ class SourceController extends Controller
      */
     public function create()
     {
-        //Instanciamos el modelo Admin
-        $category = new \App\Models\Admin();
+        if(SourceController::validarSessionUsuario()){
+              //Instanciamos el modelo Admin
+            $category = new \App\Models\Admin();
 
-        //DataHead
-        $datosHead = [
-            "pageTitle" =>'Create Source / N-Noticias',
-            "css" => asset('css/source.css')
-        ];
-        
-        //DataMenu
-        $datosMenu =[
-         "nameUser"=> Session::get('firstName'),
-         "link"=>'http://127.0.0.1:8000/source/mysource',
-         "action"=>'New Source'
-        ];
+            //DataHead
+            $datosHead = [
+                "pageTitle" =>'Create Source / N-Noticias',
+                "css" => asset('css/source.css')
+            ];
+            
+            //DataMenu
+            $datosMenu =[
+            "nameUser"=> Session::get('firstName'),
+            "link"=>'http://127.0.0.1:8000/source/mysource',
+            "action"=>'New Source'
+            ];
 
-        //DataForm
-        $datosFormulario =
-        [
-            "url"=> "",
-            "nameSource"=>"",
-            "idCategory"=>null,
-            "categories" => $category::all(),
-            "idUser" => Session::get('idUser'),
-        ];
+            //DataForm
+            $datosFormulario =
+            [
+                "url"=> "",
+                "nameSource"=>"",
+                "idCategory"=>null,
+                "categories" => $category::all(),
+                "idUser" => Session::get('idUser'),
+            ];
 
-        //Data view
-        $datos['head'] = view('shared/head', $datosHead);
-        $datos['menu'] = view('shared/menu', $datosMenu);
-        $datos['formSource'] = view('source.formSource', $datosFormulario);
+            //Data view
+            $datos['head'] = view('shared/head', $datosHead);
+            $datos['menu'] = view('shared/menu', $datosMenu);
+            $datos['formSource'] = view('source.formSource', $datosFormulario);
 
-        return view('source.createSource', $datos);
-
+            return view('source.createSource', $datos);
+        }
+        else{
+            return Redirect::to('/');
+        }
     }
 
     /**
@@ -86,21 +107,10 @@ class SourceController extends Controller
             $sourceModel::insert($datosSource);
             Session::flash('message','Fuente agregada con exito');
             Debugbar::addMessage('Agregado', 'aceptado');
-            $redirect = Redirect::to('/source');
+            $redirect = Redirect::to('/source/mysource');
         }
 
         return $redirect;
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Source  $source
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Source $source)
-    {
-        //
     }
 
     /**
@@ -111,53 +121,57 @@ class SourceController extends Controller
      */
     public function edit($id)
     {
-        //
-        $sourceModel = new \App\Models\Source();
-        $category = new \App\Models\Admin();
+        if(SourceController::validarSessionUsuario()){
+            //
+            $sourceModel = new \App\Models\Source();
+            $category = new \App\Models\Admin();
 
-        $resultDB =  $sourceModel::all()
-        ->where('id', $id)->toArray();
-    
-        foreach($resultDB as $iterador){
-            $idSource = $id;
-            $nameSource = $iterador['nameSource'];
-            $urlSource = $iterador['url'];
-            $idCategory = $iterador['idCategory']; 
+            $resultDB =  $sourceModel::all()
+            ->where('id', $id)->toArray();
+        
+            foreach($resultDB as $iterador){
+                $idSource = $id;
+                $nameSource = $iterador['nameSource'];
+                $urlSource = $iterador['url'];
+                $idCategory = $iterador['idCategory']; 
+            }
+
+            //DataHead
+            $datosHead = [
+                "pageTitle" =>'Create Source / N-Noticias',
+                "css" => asset('css/source.css')
+            ];
+                    
+            //DataMenu
+            $datosMenu = [
+                "nameUser"=> Session::get('firstName'),
+                "link"=>'http://127.0.0.1:8000/source/mysource',
+                "action"=>'New Source'
+            ];
+
+            //DataForm
+            $datosForm = [
+                'idSource' => $id,
+                'nameSource' => $nameSource,
+                'url' => $urlSource,
+                'idCategory' => $idCategory,
+                'categories' => $category::all(),
+                'idUser' => Session::get('idUser')
+            ];
+
+            
+            //Data view
+            $datos['head'] = view('shared/head', $datosHead);
+            $datos['menu'] = view('shared/menu', $datosMenu);
+            $datos['id'] = $id;
+            $datos['formSource'] = view('source.formSource', $datosForm);
+
+
+            return view('source.editSource', $datos);
         }
-
-        //DataHead
-        $datosHead = [
-            "pageTitle" =>'Create Source / N-Noticias',
-            "css" => asset('css/source.css')
-        ];
-                
-        //DataMenu
-        $datosMenu = [
-            "nameUser"=> Session::get('firstName'),
-            "link"=>'http://127.0.0.1:8000/source/mysource',
-            "action"=>'New Source'
-        ];
-
-        //DataForm
-        $datosForm = [
-            'idSource' => $id,
-            'nameSource' => $nameSource,
-            'url' => $urlSource,
-            'idCategory' => $idCategory,
-            'categories' => $category::all(),
-            'idUser' => Session::get('idUser')
-        ];
-
-        
-        //Data view
-        $datos['head'] = view('shared/head', $datosHead);
-        $datos['menu'] = view('shared/menu', $datosMenu);
-        $datos['id'] = $id;
-        $datos['formSource'] = view('source.formSource', $datosForm);
-
-
-        return view('source.editSource', $datos);
-        
+        else{
+            return Redirect::to('/');
+        }
     }
 
     /**
@@ -200,26 +214,30 @@ class SourceController extends Controller
      * Function to show source
      */
     public function sources(){
-
-        $resultDB = DB::table('sources')
-        ->select('sources.id', 'sources.nameSource', 'sources.url', 'categories.nameCategory')
-        ->join('categories', 'categories.id', '=', 'sources.idCategory')
-        ->where('idUser', Session::get('idUser'))->get();
-
-        $datosHead['pageTitle'] = "My source / N-Noticias";
-        $datosHead['css'] = asset('css/source.css');
- 
-        $datosMenu =[
-         "nameUser"=> Session::get('firstName'),
-         "link"=>'http://127.0.0.1:8000/source',
-         "action"=>'My news'
-        ];
-        
- 
-        $datos['head'] = view('shared/head', $datosHead);
-        $datos['menu'] = view('shared/menu', $datosMenu);
-        $datos['sources'] = json_decode ($resultDB);
-
-        return view('source.showSource', $datos);
+        if(SourceController::validarSessionUsuario()){
+            $resultDB = DB::table('sources')
+            ->select('sources.id', 'sources.nameSource', 'sources.url', 'categories.nameCategory')
+            ->join('categories', 'categories.id', '=', 'sources.idCategory')
+            ->where('idUser', Session::get('idUser'))->get();
+    
+            $datosHead['pageTitle'] = "My source / N-Noticias";
+            $datosHead['css'] = asset('css/source.css');
+     
+            $datosMenu =[
+             "nameUser"=> Session::get('firstName'),
+             "link"=>'http://127.0.0.1:8000/news',
+             "action"=>'My news'
+            ];
+            
+     
+            $datos['head'] = view('shared/head', $datosHead);
+            $datos['menu'] = view('shared/menu', $datosMenu);
+            $datos['sources'] = json_decode ($resultDB);
+    
+            return view('source.showSource', $datos);
+        }
+        else{
+            return Redirect::to('/');
+        }
     }
 }
